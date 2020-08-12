@@ -45,6 +45,7 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/add_hardcover_book", async (req, res) => {
+  //req.body must contain all the following fields
   let newBook = new HardCoverBook({
     title: req.body.title,
     isbn: req.body.isbn,
@@ -72,6 +73,12 @@ router.post("/add_hardcover_book", async (req, res) => {
       console.error(error);
       res.status(500).send(JSON.stringify({ error: "error" }));
     });
+});
+
+router.post("/find_hcbook_with_filter", async (req, res) => {
+  //Assumes req.body is a valid search query
+  let all_books = await HardCoverBook.find(req.body);
+  res.send(JSON.stringify({ all_books: all_books }));
 });
 
 // anything else falls to this "not found" case
