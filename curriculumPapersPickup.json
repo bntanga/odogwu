@@ -1,8 +1,7 @@
 {
-    "Exam Board" : "",
-    "Subject" : "",
+    "Exam Board" : "Cambridge",
+    "Subject" : "Mathematics",
     "Duration" : "",
-    "paperUrl": "",
     "price":"",
     "owner": "",
     "ownerContact": "",

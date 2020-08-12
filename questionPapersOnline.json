@@ -1,0 +1,50 @@
+[{
+    "Exam Board" : "Cambridge",
+    "Subject" : "Biology",
+    "Year" : "2020",
+    "Month" : "June",
+    "Type":"PDF",
+    "Paper" : "2",
+    "paperUrl": ""
+
+},{
+
+    "Exam Board" : "ZIMSEC",
+    "Subject" : "Mathematics",
+    "Year" : "2020",
+    "Month" : "June",
+    "Type":"PDF",
+    "Paper" : "1",
+    "paperUrl": ""
+
+},
+{
+    "Exam Board" : "JAMB",
+    "Subject" : "English",
+    "Level":"Advanced",
+    "Year" : "2019",
+    "Month" : "November",
+    "Type":"PDF",
+    "Paper" : "2",
+    "paperUrl": ""
+},
+{
+    "Exam Board" : "ECZ",
+    "Subject" : "Mathematics",
+    "Year" : "2018",
+    "Month" : "June",
+    "Type":"PDF",
+    "Paper" : "5",
+    "paperUrl": ""
+},{
+
+    "Exam Board" : "ECZ",
+    "Subject" : "Mathematics",
+    "Year" : "2018",
+    "Month" : "June",
+    "Type":"PDF",
+    "Paper" : "4",
+    "paperUrl": ""
+
+}
+]

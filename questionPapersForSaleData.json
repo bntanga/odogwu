@@ -1,0 +1,52 @@
+[{
+    "Exam Board" : "Cambridge",
+    "Subject" : "Biology",
+    "Year" : "2020",
+    "Month" : "June",
+    "Paper" : "3",
+    "Type":"Physical",
+    "paperUrl": "",
+    "price" : "FREE",
+    "owner" : "Hillary Tamirepi",
+    "ownerContact": "+1 617 710 7082"
+
+},{
+
+    "Exam Board" : "ZIMSEC",
+    "Subject" : "Mathematics",
+    "Year" : "2020",
+    "Month" : "June",
+    "Type":"Physical",
+    "Paper" : "1",
+    "paperUrl": "",
+    "price" : "FREE",
+    "owner" : "Brian Ntanga",
+    "ownerContact": "+1 617 685 8660"
+
+},
+{
+    "Exam Board" : "JAMB",
+    "Subject" : "English",
+    "Level":"Advanced",
+    "Year" : "2019",
+    "Month" : "November",
+    "Paper" : "2",
+    "paperUrl": "",
+    "price" : "$2 Dollars",
+    "owner" : "Hillary Tamirepi",
+    "ownerContact": "+1 617 710 7082"
+
+},
+{
+    "Exam Board" : "ECZ",
+    "Subject" : "Mathematics",
+    "Year" : "2018",
+    "Month" : "June",
+    "Paper" : "4",
+    "paperUrl": "",
+    "price" : "FREE",
+    "owner" : "Brian Ntanga",
+    "ownerContact": "+1 617 710 7082"
+
+}
+]
