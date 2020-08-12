@@ -12,6 +12,8 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 
+const HardCoverBook = require("./models/hardCoverBook");
+
 // import authentication library
 const auth = require("./auth");
 
@@ -41,6 +43,29 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+router.post("/add_hardcover_book", async (req, res) => {
+  let newBook = new HardCoverBook({
+    name: req.body.name,
+    dateUploaded: req.body.dateUploaded,
+    imageUrl: req.body.imageUrl,
+    price: req.body.price,
+    sellerLocation: req.body.sellerLocation,
+    sellerPhoneNumber: req.body.sellerPhoneNumber,
+    sellerEmail: req.body.sellerEmail,
+    sellerId: req.body.sellerId,
+  });
+
+  newBook
+    .save()
+    .then((book) => {
+      res.send(JSON.stringify({ book: book }));
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send(JSON.stringify({ error: "error" }));
+    });
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
