@@ -46,9 +46,16 @@ router.post("/initsocket", (req, res) => {
 
 router.post("/add_hardcover_book", async (req, res) => {
   let newBook = new HardCoverBook({
-    name: req.body.name,
+    title: req.body.title,
+    isbn: req.body.isbn,
+    author: req.body.author,
+    format: req.body.format,
+    publicationStatus: req.body.publicationStatus,
+    bisacSubject: req.body.bisacSubject,
+    description: req.body.description,
     dateUploaded: req.body.dateUploaded,
     imageUrl: req.body.imageUrl,
+    publicationDate: req.body.publicationDate,
     price: req.body.price,
     sellerLocation: req.body.sellerLocation,
     sellerPhoneNumber: req.body.sellerPhoneNumber,
