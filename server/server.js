@@ -25,10 +25,9 @@ const express = require("express"); // backend framework for our node server.
 const session = require("express-session"); // library that stores info about each connected user
 const mongoose = require("mongoose"); // library to connect to MongoDB
 const path = require("path"); // provide utilities for working with file and directory paths
-const bodyParser = require('body-parser')
+const bodyParser = require("body-parser");
 const api = require("./api");
 const auth = require("./auth");
-
 
 // socket stuff
 const socket = require("./server-socket");
@@ -69,157 +68,117 @@ app.use(
     saveUninitialized: false,
   })
 );
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // ****************************************************
 // USSD INTERFACE
 // ****************************************************
 
-let subjects = ["PHYSICS","CHEMISTRY","MATHEMATICS","BIOLOGY","ENGLISH","WOODWORK"]
+let subjects = ["PHYSICS", "CHEMISTRY", "MATHEMATICS", "BIOLOGY", "ENGLISH", "WOODWORK"];
 
 let subjects_string = `CON SUBJECTS
 
-`
-subjects.map((subject,index)=>{
+`;
+subjects.map((subject, index) => {
+  subjects_string += ` ${index + 1}. ${subject}
+  `;
+});
 
-  subjects_string+=` ${index+1}. ${subject}
-  `
-})
-
-app.post("/ussd",(req,res)=>{
-
+app.post("/ussd", (req, res) => {
   console.log("ussed");
-  console.log(req.body)
-  let {sessionId, serviceCode, phoneNumber, text} = req.body
+  console.log(req.body);
+  let { sessionId, serviceCode, phoneNumber, text } = req.body;
   // text = ""
   // console.log(req.body)
-  if (text == '') {
+  if (text == "") {
     // This is the first request. Note how we start the response with CON
     let response = `CON WELCOME TO ODOGWU LIBRARY
     1. Find Books
     2. Find Question Papers
     3. Find Teachers
-    `
-    res.send(response)
-  } else if (text == '1') {
+    `;
+    res.send(response);
+  } else if (text == "1") {
     // Business logic for first level response
-    let response = subjects_string
-    res.send(response)
-  } else if (text == '2') {
+    let response = subjects_string;
+    res.send(response);
+  } else if (text == "2") {
     // Business logic for first level response
-    let response = `END Your phone number is ${phoneNumber}`
-    res.send(response)
+    let response = `END Your phone number is ${phoneNumber}`;
+    res.send(response);
   } else if (text.startsWith("1*")) {
- 
-  let response =''
-   subjects.map((subject,index)=>{
-      var choose_subject = `1*${index+1}`
-      var choose_pdf_format = `1*${index+1}*1`
-      var choose_physical_format =`1*${index+1}*2`
+    let response = "";
+    subjects.map((subject, index) => {
+      var choose_subject = `1*${index + 1}`;
+      var choose_pdf_format = `1*${index + 1}*1`;
+      var choose_physical_format = `1*${index + 1}*2`;
 
-      var choose_pdf_price_tag_free = `1*${index+1}*1*1`
-      var choose_pdf_price_tag_paid = `1*${index+1}*1*2`
+      var choose_pdf_price_tag_free = `1*${index + 1}*1*1`;
+      var choose_pdf_price_tag_paid = `1*${index + 1}*1*2`;
 
+      var choose_physical_price_tag_free = `1*${index + 1}*2*1`;
+      var choose_physical_price_tag_paid = `1*${index + 1}*2*2`;
 
-      var choose_physical_price_tag_free = `1*${index+1}*2*1`
-      var choose_physical_price_tag_paid = `1*${index+1}*2*2`
+      var search_free_pdf_by_title = `1*${index + 1}*1*1*1`;
+      var search_free_pdf_by_author = `1*${index + 1}*1*1*2`;
+      var search_free_pdf_by_level = `1*${index + 1}*1*1*3`;
 
+      var search_paid_pdf_by_title = `1*${index + 1}*1*2*1`;
+      var search_paid_pdf_by_author = `1*${index + 1}*1*2*2`;
+      var search_paid_pdf_by_level = `1*${index + 1}*1*2*3`;
 
-      var search_free_pdf_by_title = `1*${index+1}*1*1*1`
-      var search_free_pdf_by_author = `1*${index+1}*1*1*2`
-      var search_free_pdf_by_level = `1*${index+1}*1*1*3`
+      var search_free_physical_by_title = `1*${index + 1}*2*1*1`;
+      var search_free_physical_by_author = `1*${index + 1}*2*1*2`;
+      var search_free_physical_by_level = `1*${index + 1}*2*1*3`;
 
-      var search_paid_pdf_by_title = `1*${index+1}*1*2*1`
-      var search_paid_pdf_by_author = `1*${index+1}*1*2*2`
-      var search_paid_pdf_by_level = `1*${index+1}*1*2*3`
+      var search_paid_physical_by_title = `1*${index + 1}*2*2*1`;
+      var search_paid_physical_by_author = `1*${index + 1}*2*2*2`;
+      var search_paid_physical_by_level = `1*${index + 1}*2*2*3`;
 
-
-
-      var search_free_physical_by_title = `1*${index+1}*2*1*1`
-      var search_free_physical_by_author = `1*${index+1}*2*1*2`
-      var search_free_physical_by_level = `1*${index+1}*2*1*3`
-
-      var search_paid_physical_by_title = `1*${index+1}*2*2*1`
-      var search_paid_physical_by_author = `1*${index+1}*2*2*2`
-      var search_paid_physical_by_level = `1*${index+1}*2*2*3`
-
-
-
-      if (choose_subject===text){
-      response = `CON ${subject} Books
+      if (choose_subject === text) {
+        response = `CON ${subject} Books
       1. PDF
-      2. HARD COPY      `   
-      }else if (choose_pdf_format===text){
+      2. HARD COPY      `;
+      } else if (choose_pdf_format === text) {
         response = `CON ${subject} PDFs Books
-        1. FREE`
-      }
-      else if (choose_physical_format===text){
+        1. FREE`;
+      } else if (choose_physical_format === text) {
         response = `CON ${subject} Physical Books
         1. FREE
-        2. PAID` 
-      }
-      else if (choose_pdf_price_tag_free===text){
+        2. PAID`;
+      } else if (choose_pdf_price_tag_free === text) {
         response = `CON ${subject} Free PDFs 
         1. Search by Title
         2. Search by Author
-        3. Search by Level` 
-
-      }else if (choose_physical_price_tag_free===text){
+        3. Search by Level`;
+      } else if (choose_physical_price_tag_free === text) {
         response = `CON ${subject} Free Physical Books 
         1. Search by Title
         2. Search by Author
-        3. Search by Level` 
-    
-    }
-    else if (choose_physical_price_tag_paid ===text){
-      response = `CON ${subject}  Free Physical PDFs 
+        3. Search by Level`;
+      } else if (choose_physical_price_tag_paid === text) {
+        response = `CON ${subject}  Free Physical PDFs 
       1. Search by Title
       2. Search by Author
-      3. Search by Level` 
-    
-    }
-    else if (search_free_pdf_by_title ===text){
-    
-  
-    } else if (search_free_pdf_by_author ===text){
-    
-    
-    }else if (search_free_pdf_by_level ===text){
+      3. Search by Level`;
+      } else if (search_free_pdf_by_title === text) {
+      } else if (search_free_pdf_by_author === text) {
+      } else if (search_free_pdf_by_level === text) {
+      } else if (search_free_physical_by_title == text) {
+      } else if (search_free_physical_by_author == text) {
+      } else if (search_free_physical_by_level == text) {
+      } else if (search_paid_physical_by_title === text) {
+      } else if (search_paid_physical_by_author === text) {
+      } else if (search_paid_physical_by_level === text) {
+      }
+    });
 
-
-
-  }else if (search_free_physical_by_title==text){
-
-
-
-  }else if (search_free_physical_by_author==text){
-
-
-
-  }else if (search_free_physical_by_level==text){
-
-
-  }else if (search_paid_physical_by_title===text){
-
-
-  }else if (search_paid_physical_by_author===text){
-
-
-  }else if (search_paid_physical_by_level===text){
-
-
-  }}); 
-
-
-   res.send(response);
+    res.send(response);
+  } else {
+    res.status(400).send("Bad request!");
   }
-  else {
-    res.status(400).send('Bad request!')
-  }
-
-
-})
+});
 
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);

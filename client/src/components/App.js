@@ -68,21 +68,26 @@ class App extends Component {
   // /add_book should add book
   submitBook = async (bookName, bookAuthor, description) => {
     console.log("submit book called");
-    let body = {
+    let body = JSON.stringify({
       title: bookName,
       author: bookAuthor,
       description: description,
-    };
-
-    let upload = await fetch("/api/add_book", {
-      method: "POST",
-      body: body,
     });
-    // let responseJSON = await books.json();
+
+    let result = await post("/api/add", body);
+    console.log("this is result", result);
+    //
+    // let upload = await fetch("/api/add_hardcover_book", {
+    //   method: "POST",
+    //   body: body,
+    // });
+    // let responseJSON = await upload.json();
+    // console.log("this is response", responseJSON);
   };
   subjectFilter = async (subject) => {
     let body = { subject: subject };
     let books = await fetch("/api/filter", {
+      headers: { "Content-Type": "application/json" },
       method: "POST",
       body: body,
     });
@@ -91,12 +96,12 @@ class App extends Component {
   };
 
   componentDidMount() {
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        // they are registed in the database, and currently logged in.
-        this.setState({ userId: user._id });
-      }
-    });
+    // get("/api/whoami").then((user) => {
+    //   if (user._id) {
+    //     // they are registed in the database, and currently logged in.
+    //     this.setState({ userId: user._id });
+    //   }
+    // });
   }
 
   handleLogin = (res) => {

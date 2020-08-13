@@ -20,11 +20,8 @@
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
-<<<<<<< HEAD
     "body-parser": "^1.19.0",
-=======
     "bootstrap": "^4.5.2",
->>>>>>> 64fc7d9286f165877d26298d8cbd49fe7ee4a84d
     "connect-ensure-login": "^0.1.1",
     "core-js": "^3.3.6",
     "express": "^4.16.4",
