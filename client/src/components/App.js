@@ -73,16 +73,16 @@ class App extends Component {
       author: bookAuthor,
       description: description,
     });
-
-    let result = await post("/api/add", body);
-    console.log("this is result", result);
     //
-    // let upload = await fetch("/api/add_hardcover_book", {
-    //   method: "POST",
-    //   body: body,
-    // });
-    // let responseJSON = await upload.json();
-    // console.log("this is response", responseJSON);
+    // let result = await post("/api/add", body);
+    // console.log("this is result", result);
+
+    let upload = await fetch("/api/add", {
+      method: "POST",
+      body: body,
+    });
+    let responseJSON = await upload.json();
+    console.log("this is response", responseJSON);
   };
   subjectFilter = async (subject) => {
     let body = { subject: subject };
