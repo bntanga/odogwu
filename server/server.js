@@ -36,10 +36,13 @@ const { Console } = require("console");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
+// const mongoConnectionURL =
+//   "mongodb+srv://bntanga:odugwu@cluster0.wkd33.mongodb.net/odogwu?retryWrites=true&w=majority";
+
 const mongoConnectionURL =
-  "mongodb+srv://bntanga:odugwu@cluster0.wkd33.mongodb.net/odogwu?retryWrites=true&w=majority";
+  "mongodb+srv://bntanga:odogwu@cluster0.wkd33.mongodb.net/odogwudb?retryWrites=true&w=majority";
 // TODO change database name to the name you chose
-const databaseName = "odogwu";
+const databaseName = "odogwudb";
 
 // connect to mongodb
 mongoose
