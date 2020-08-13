@@ -1,0 +1,51 @@
+.tag-title{
+    background-color: var(--primary1);
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+    width: 100px;
+    margin: 8px;
+    text-align: center;
+
+}
+.tags-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
+}
+.book-card{
+    width: 300px;
+    height: 300px;
+background-color: var( --tertiary1);
+    color: white;
+    margin: 8px;
+
+    display: flex;
+    flex-direction: column;
+}
+.single-field{
+    display: flex;
+    flex-direction: row;
+}
+.card-book-intro{
+    font-weight: bold;
+    margin-right: 4px;
+    flex: 1;
+
+}
+.card-book-detail{
+    flex: 3;
+
+}
+
+.fields-container{
+    flex: 4;
+    padding: 8px;
+}
+.download-link{
+    flex: 1;
+    background-color: var(  --secondary1);
+    text-align: center;
+}

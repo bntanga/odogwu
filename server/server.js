@@ -84,9 +84,6 @@ subjects.map((subject,index)=>{
   `
 })
 
-
-
-
 app.post("/ussd",(req,res)=>{
 
   console.log("ussed");
@@ -209,121 +206,11 @@ app.post("/ussd",(req,res)=>{
   }else if (search_paid_physical_by_level===text){
 
 
-
-  }
-}
-  ); 
+  }}); 
 
 
-
-    
    res.send(response);
-
-
-
   }
-  
-  
-  
-  
-  
-  //  if (text == '1*1') {
-  //   // Business logic for first level response
-
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON PHYSICS BOOKS
-  //   1.PDFS
-  //   2.HARD COVER
-  //   `
-  //   res.send(response)
-
-  // } 
-  // if (text == '1*1*1') {
-  //   // This is a second level response where the user selected 1 in the first instance
-
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON PHYSICS PDF BOOKS
-  //   1.SEARCH BY TITLE
-  //   2.SEARCH BY AUTHOR
-  //   `
-  //   res.send(response)
-  // }
-  // else if (text == '1*1*1*1') {
-  //   // This is a second level response where the user selected 1 in the first instance
-
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON INPUT TITLE
-  //   1.ABOT PHYSICS
-  //   2.KELLERMAN PHYSICS
-  //   `
-  //   res.send(response)
-  // }else if (text == '1*1*1*2') {
-  //   // This is a second level response where the user selected 1 in the first instance
-
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON INPUT AUTHOR
-  //   1.SEARCH BY TITLE
-  //   2.SEARCH BY AUTHOR
-  //   `
-  //   res.send(response)
-  // }
-
-  
-  // else if (text == '1*1*2') {
-  //   // This is a second level response where the user selected 1 in the first instance
-
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON PHYSICS HARDCOVER BOOKS
-  //   1.FREE
-  //   2.FOR SALE 
-  //   `
-  //   res.send(response)
-  // }
-  // else if (text == '1*1*2*1') {
-  //   // This is a second level response where the user selected 1 in the first instance
-
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON PHYSICS HARDCOVER BOOKS
-  //   1.SEARCH BY TITLE
-  //   2.SEARCH BY AUTHOR
-  //   `
-  //   res.send(response)
-  // } else if (text == '1*1*2*2') {
-  //   // This is a second level response where the user selected 1 in the first instance
-
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON PHYSICS HARDCOVER BOOKS
-  //   1.SEARCH BY TITLE
-  //   2.SEARCH BY AUTHOR
-  //   `
-  //   res.send(response)
-  // }
-  
-  // else if (text == '1*2') {
-  //   // This is a second level response where the user selected 1 in the first instance
- 
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON CHEMISTRY BOOKS
-  //   1.PDFS
-  //   2.HARD COVER
-    
-  //   `
-  //   res.send(response)
-  // } else if (text == '1*3') {
-  //   // This is a second level response where the user selected 1 in the first instance
-
-  //   // This is a terminal request. Note how we start the response with END
-  //   let response = `CON MATHEMATICS BOOKS
-  //   1.PDFS
-  //   2.HARD COVER 
-  //   `
-  //   res.send(response)
-  // } 
-  
-  
-  
-  
-  
   else {
     res.status(400).send('Bad request!')
   }

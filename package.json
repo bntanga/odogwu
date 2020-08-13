@@ -20,7 +20,11 @@
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
+<<<<<<< HEAD
     "body-parser": "^1.19.0",
+=======
+    "bootstrap": "^4.5.2",
+>>>>>>> 64fc7d9286f165877d26298d8cbd49fe7ee4a84d
     "connect-ensure-login": "^0.1.1",
     "core-js": "^3.3.6",
     "express": "^4.16.4",
@@ -31,6 +35,7 @@
     "nodemon": "^1.19.4",
     "prettier": "^2.0.5",
     "react": "^16.7.0",
+    "react-bootstrap": "^1.3.0",
     "react-dom": "^16.7.0",
     "react-google-login": "^5.0.7",
     "react-router-dom": "^4.3.1",
