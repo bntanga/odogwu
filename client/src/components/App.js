@@ -30,6 +30,8 @@ let sampleFilterGroups = [
   { title: "Price", fields: ["high", "low"] },
   { title: "Grade", fields: ["Advanced Level", "Ordinary Level"] },
 ];
+
+let sampleFilterSubjects = ["Physics", "Chemistry", "Biology", "Geography"];
 let sampleBooks = [
   {
     title: "IGCSE Math",
@@ -66,19 +68,21 @@ class App extends Component {
   //Endpoints being expected to be provided
   // /filter should return an array of book objects
   // /add_book should add book
-  submitBook = async (bookName, bookAuthor, description) => {
+  submitBook = async (bookName, bookAuthor, description, subject) => {
     console.log("submit book called");
+
     let body = JSON.stringify({
       title: bookName,
       author: bookAuthor,
       description: description,
+      subject: subject,
     });
-    //
-    // let result = await post("/api/add", body);
-    // console.log("this is result", result);
 
-    let upload = await fetch("/api/add", {
-      method: "POST",
+    console.log("this is body", body);
+
+    let upload = await fetch("/api/add_hardcover_book", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
       body: body,
     });
     let responseJSON = await upload.json();
@@ -123,7 +127,7 @@ class App extends Component {
       <>
         <NavBar />
         <Router>
-          <UploadBook path="/" submitBook={this.submitBook} />
+          <UploadBook path="/" submitBook={this.submitBook} subjects={sampleFilterSubjects} />
           <SubjectFilterPage
             categories={sampleSubjects}
             path="/sub"

@@ -44,25 +44,22 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-router.post("/add", async (req, res) => {
-  console.log("new book received", req.body);
+router.post("/add_hardcover_book", async (req, res) => {
   //req.body must contain all the following fields
   let newBook = new HardCoverBook({
     title: req.body.title,
-    isbn: req.body.isbn,
     author: req.body.author,
-    format: req.body.format,
-    publicationStatus: req.body.publicationStatus,
-    bisacSubject: req.body.bisacSubject,
+    subject: req.body.subject,
+    format: "fix me",
     description: req.body.description,
-    dateUploaded: req.body.dateUploaded,
-    imageUrl: req.body.imageUrl,
-    publicationDate: req.body.publicationDate,
-    price: req.body.price,
-    sellerLocation: req.body.sellerLocation,
-    sellerPhoneNumber: req.body.sellerPhoneNumber,
-    sellerEmail: req.body.sellerEmail,
-    sellerId: req.body.sellerId,
+
+    imageUrl: "fix me",
+
+    price: "fix me",
+    sellerLocation: "fix me",
+    sellerPhoneNumber: "fix me",
+    sellerEmail: "fix me",
+    sellerId: "fix me",
   });
 
   newBook
