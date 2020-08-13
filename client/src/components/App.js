@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import Skeleton from "./pages/Skeleton.js";
 import Navbar from "./pages/NavBar.js";
 
 import SubjectFilterPage from "./pages/SubjectFilterPage";
 import BooksDisplayPage from "./pages/BooksDisplayPage";
 
-import "../utilities.css";
+import UploadBook from "./pages/UploadBook";
 
-import { socket } from "../client-socket.js";
+import "../utilities.css";
 
 import { get, post } from "../utilities";
 import NavBar from "./pages/NavBar";
@@ -64,7 +65,21 @@ class App extends Component {
 
   //Endpoints being expected to be provided
   // /filter should return an array of book objects
+  // /add_book should add book
+  submitBook = async (bookName, bookAuthor, description) => {
+    console.log("submit book called");
+    let body = {
+      title: bookName,
+      author: bookAuthor,
+      description: description,
+    };
 
+    let upload = await fetch("/api/add_book", {
+      method: "POST",
+      body: body,
+    });
+    // let responseJSON = await books.json();
+  };
   subjectFilter = async (subject) => {
     let body = { subject: subject };
     let books = await fetch("/api/filter", {
@@ -103,6 +118,7 @@ class App extends Component {
       <>
         <NavBar />
         <Router>
+          <UploadBook path="/" submitBook={this.submitBook} />
           <SubjectFilterPage
             categories={sampleSubjects}
             path="/sub"
@@ -110,7 +126,7 @@ class App extends Component {
           />
           <BooksDisplayPage
             tags={["Books", "Papers", "Curriculum", "Youtube"]}
-            path="/"
+            path="/disp"
             filterGroups={sampleFilterGroups}
             books={sampleBooks}
           />
