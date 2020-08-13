@@ -10,10 +10,13 @@ let SubjectCard = ({ image, title }) => (
 
 export default class SubjectFilterPage extends Component {
   //Props are list of categories
-  // categories = {image: "", title: ""}
+  // categories = [{image: "", title: ""}]
   render() {
     let categories = this.props.categories.map((item, index) => (
-      <SubjectCard image={item.image} title={item.title} key={index} />
+      <div onClick={() => this.props.subjectFilter(item.title)} key={index}>
+        {" "}
+        <SubjectCard image={item.image} title={item.title} />
+      </div>
     ));
 
     return (

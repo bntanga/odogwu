@@ -58,8 +58,22 @@ class App extends Component {
     super(props);
     this.state = {
       userId: undefined,
+      all_books: [],
     };
   }
+
+  //Endpoints being expected to be provided
+  // /filter should return an array of book objects
+
+  subjectFilter = async (subject) => {
+    let body = { subject: subject };
+    let books = await fetch("/api/filter", {
+      method: "POST",
+      body: body,
+    });
+    let responseJSON = await books.json();
+    this.setState({ all_books: responseJSON });
+  };
 
   componentDidMount() {
     get("/api/whoami").then((user) => {
@@ -89,7 +103,11 @@ class App extends Component {
       <>
         <NavBar />
         <Router>
-          <SubjectFilterPage categories={sampleSubjects} path="/sub" />
+          <SubjectFilterPage
+            categories={sampleSubjects}
+            path="/sub"
+            subjectFilter={this.subjectFilter}
+          />
           <BooksDisplayPage
             tags={["Books", "Papers", "Curriculum", "Youtube"]}
             path="/"
