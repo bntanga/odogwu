@@ -1,0 +1,18 @@
+.sidebar-container{
+    background-color: var( --tertiary1);
+    width: 300px;
+    height: 100vh;
+    padding: 16px;
+}
+
+.filter-group-title{
+    color: white;
+    font-size: var(--l);
+    text-align: center;
+}
+.checkbox-text{
+    color: white;
+    padding: 2px;
+    margin-left: 16px;
+}
+

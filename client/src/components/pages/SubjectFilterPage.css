@@ -1,0 +1,40 @@
+.subject-page-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+.page-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.card-container{
+    width: 300px;
+    height: 300px;
+    margin: 20px;
+}
+
+.card-image{
+    height: 80%;
+    background-color: #c4c4c4;
+}
+.subject-title{
+    width: 100%;
+    text-align: center;
+    height: 20%;
+    padding: 10px;
+    background-color: var(--secondary1);
+    color: white;
+    font-size: var(--l);
+}
+.search-bar{
+  border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
+    width: 500px;
+    text-align: center;
+    margin: 8px;
+
+}
