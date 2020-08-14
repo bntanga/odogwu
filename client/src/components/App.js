@@ -90,18 +90,18 @@ class App extends Component {
       let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log("Upload is " + progress + "% done");
       if (progress === 100) {
-        let imageUrl = await this.getDownloadurl(file.name);
+        let downloadUrl = await this.getDownloadurl(file.name);
         let body = JSON.stringify({
           title: bookName,
           author: bookAuthor,
           description: description,
           subject: subject,
-          imageUrl: imageUrl,
+          downloadUrl: downloadUrl,
         });
 
         console.log("this is body", body);
 
-        let upload = await fetch("/api/add_hardcover_book", {
+        let upload = await fetch("/api/add_pdf", {
           method: "post",
           headers: { "Content-type": "application/json" },
           body: body,

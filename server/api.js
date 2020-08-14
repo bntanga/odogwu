@@ -14,6 +14,8 @@ const User = require("./models/user");
 
 const HardCoverBook = require("./models/hardCoverBook");
 
+const PDF = require("./models/pdfBook");
+
 // import authentication library
 const auth = require("./auth");
 
@@ -44,22 +46,18 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-router.post("/add_hardcover_book", async (req, res) => {
+router.post("/add_pdf", async (req, res) => {
   //req.body must contain all the following fields
-  let newBook = new HardCoverBook({
+  let newBook = new PDF({
     title: req.body.title,
     author: req.body.author,
     subject: req.body.subject,
     format: "fix me",
     description: req.body.description,
-
-    imageUrl: req.body.imageUrl,
-
-    price: "fix me",
-    sellerLocation: "fix me",
-    sellerPhoneNumber: "fix me",
-    sellerEmail: "fix me",
-    sellerId: "fix me",
+    edition: 1,
+    gradeLevel: "fix me",
+    downloadUrl: req.body.downloadUrl,
+    publicationDate: "fix me",
   });
 
   newBook
