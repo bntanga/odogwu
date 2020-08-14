@@ -3,14 +3,18 @@ import { Dropdown } from "react-bootstrap";
 
 import CustomInput from "./CustomInput";
 export default class UploadBook extends Component {
+  constructor(props) {
+    super(props);
+    this.bookRef = React.createRef();
+    this.state = {
+      bookName: "",
+      bookAuthor: "",
+      description: "",
+      subject: "",
+    };
+  }
   //props  => submit function that submits all data to API
   // List of subjects
-  state = {
-    bookName: "",
-    bookAuthor: "",
-    description: "",
-    subject: "",
-  };
 
   bookNameFunc = (event) => this.setState({ bookName: event.target.value });
   bookAuthorFunc = (event) => this.setState({ bookAuthor: event.target.value });
@@ -28,6 +32,17 @@ export default class UploadBook extends Component {
 
     return (
       <div>
+        <label htmlFor="myfile">Select a file:</label>
+        <input
+          type="file"
+          id="myfile"
+          name="myfile"
+          // ref={this.bookRef}
+          onChange={(event) => {
+            console.log("this is event", event.target.files[0]);
+            this.setState({ bookPath: event.target.files[0] });
+          }}
+        />
         <CustomInput
           id={1}
           // predicted="California"
@@ -73,7 +88,8 @@ export default class UploadBook extends Component {
               this.state.bookName,
               this.state.bookAuthor,
               this.state.description,
-              this.state.subject
+              this.state.subject,
+              this.state.bookPath
             )
           }
         >

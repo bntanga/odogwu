@@ -53,7 +53,7 @@ router.post("/add_hardcover_book", async (req, res) => {
     format: "fix me",
     description: req.body.description,
 
-    imageUrl: "fix me",
+    imageUrl: req.body.imageUrl,
 
     price: "fix me",
     sellerLocation: "fix me",

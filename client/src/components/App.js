@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import "bootstrap/dist/css/bootstrap.min.css";
+import firebase from "./pages/firebase";
 
 import Skeleton from "./pages/Skeleton.js";
 import Navbar from "./pages/NavBar.js";
@@ -55,6 +56,7 @@ let sampleBooks = [
     grade: "MIT",
   },
 ];
+
 class App extends Component {
   // makes props available in this component
   constructor(props) {
@@ -68,25 +70,57 @@ class App extends Component {
   //Endpoints being expected to be provided
   // /filter should return an array of book objects
   // /add_book should add book
-  submitBook = async (bookName, bookAuthor, description, subject) => {
+
+  getDownloadurl = async (fileName) => {
+    console.log("get download URL called");
+    let storageRef = firebase.storage().ref();
+    // let spaceRef = storageRef.child("books/" + fileName);
+    let url = await storageRef.child("books/" + fileName).getDownloadURL();
+    console.log("this is URL", url);
+    return url;
+  };
+
+  submitBook = async (bookName, bookAuthor, description, subject, file) => {
     console.log("submit book called");
 
-    let body = JSON.stringify({
-      title: bookName,
-      author: bookAuthor,
-      description: description,
-      subject: subject,
-    });
+    let bucket = "books";
+    let storageRef = firebase.storage().ref(`${bucket}/${file.name}`);
+    let uploadTask = storageRef.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, async (snapshot) => {
+      let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is " + progress + "% done");
+      if (progress === 100) {
+        let imageUrl = await this.getDownloadurl(file.name);
+        let body = JSON.stringify({
+          title: bookName,
+          author: bookAuthor,
+          description: description,
+          subject: subject,
+          imageUrl: imageUrl,
+        });
 
-    console.log("this is body", body);
+        console.log("this is body", body);
 
-    let upload = await fetch("/api/add_hardcover_book", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: body,
+        let upload = await fetch("/api/add_hardcover_book", {
+          method: "post",
+          headers: { "Content-type": "application/json" },
+          body: body,
+        });
+        let responseJSON = await upload.json();
+        console.log("this is response", responseJSON);
+      }
+
+      switch (snapshot.state) {
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+          console.log("Upload is paused");
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          console.log("Upload is running");
+          break;
+        // case firebase.storage.TaskState.SUCCESS:
+        //   console.log("Upload success");
+      }
     });
-    let responseJSON = await upload.json();
-    console.log("this is response", responseJSON);
   };
   subjectFilter = async (subject) => {
     let body = { subject: subject };
@@ -107,6 +141,16 @@ class App extends Component {
     //   }
     // });
   }
+
+  uploadToFirebase = (file) => {
+    let bucket = "books";
+    let storageRef = firebase.storage().ref(`${bucket}/${file.name}`);
+    let uploadTask = storageRef.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, () => {
+      let downloadUrl = uploadTask.snapshot.downloadURL;
+      console.log("this is download URL", downloadUrl);
+    });
+  };
 
   handleLogin = (res) => {
     console.log(`Logged in as ${res.profileObj.name}`);
