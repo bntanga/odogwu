@@ -91,12 +91,15 @@ class App extends Component {
       console.log("Upload is " + progress + "% done");
       if (progress === 100) {
         let downloadUrl = await this.getDownloadurl(file.name);
+        let splitArr = file.type.split("/");
+
         let body = JSON.stringify({
           title: bookName,
           author: bookAuthor,
           description: description,
           subject: subject,
           downloadUrl: downloadUrl,
+          format: splitArr[splitArr.length - 1],
         });
 
         console.log("this is body", body);

@@ -52,7 +52,7 @@ router.post("/add_pdf", async (req, res) => {
     title: req.body.title,
     author: req.body.author,
     subject: req.body.subject,
-    format: "fix me",
+    format: req.body.format,
     description: req.body.description,
     edition: 1,
     gradeLevel: "fix me",
