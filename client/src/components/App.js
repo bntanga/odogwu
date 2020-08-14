@@ -30,7 +30,10 @@ let sampleSubjects = [
 
 let sampleFilterGroups = [
   { title: "Price", fields: ["high", "low"] },
-  { title: "Grade", fields: ["Advanced Level", "Ordinary Level"] },
+  {
+    title: "Grade",
+    fields: ["Advanced Level", "Junior Secondary", "Senior Secondary", "Primary School"],
+  },
 ];
 
 let sampleBooks = [
@@ -182,6 +185,35 @@ class App extends Component {
       }
     });
   };
+
+  anyFilter = async (filters) => {
+    console.log("anyFilter called with stuff", filters);
+    let body = {};
+    for (const [key, value] of Object.entries(filters)) {
+      switch (key) {
+        case "Grade":
+          if (value !== "") {
+            body["grade"] = value;
+          }
+
+          break;
+        case "Price":
+          if (value !== "") {
+            body["price"] = value;
+          }
+          break;
+      }
+    }
+    let bodySent = JSON.stringify(body);
+    let books = await fetch("/api/filter", {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: bodySent,
+    });
+    let responseJSON = await books.json();
+    console.log("this is response", responseJSON);
+    this.setState({ pdf_books: responseJSON.pdf_books, hc_books: responseJSON.hc_books });
+  };
   subjectFilter = async (subject) => {
     console.log("subject filter called with", subject);
     let body = JSON.stringify({ subject: subject });
@@ -242,6 +274,7 @@ class App extends Component {
             filterGroups={sampleFilterGroups}
             pdf_books={this.state.pdf_books}
             hc_books={this.state.hc_books}
+            filterFunction={this.anyFilter}
           />
 
           {/*<Skeleton*/}
