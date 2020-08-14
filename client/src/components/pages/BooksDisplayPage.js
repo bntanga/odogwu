@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./BooksDisplayPage.css";
+import { navigate, Link } from "@reach/router";
+import { saveAs } from "file-saver";
 
 import SideBar from "./SideBar";
 
@@ -29,7 +31,17 @@ let BooksCard = ({ title, author, downloadLink, description, grade }) => (
       </div>
     </div>
 
-    <div className={"download-link"}> Download</div>
+    <div className={"download-link"} onClick={() => saveAs(downloadLink, { title })}>
+      {" "}
+      Download
+    </div>
+  </div>
+);
+
+let HCCard = ({ imageUrl, title }) => (
+  <div className={"books-card-part2"}>
+    <img src={imageUrl} className={"image-container"} />
+    <div className={"book-title-2"}>{title}</div>
   </div>
 );
 let Tag = ({ title }) => <div className={"tag-title"}>{title}</div>;
@@ -37,15 +49,19 @@ export default class BooksDisplayPage extends Component {
   render() {
     let tags_filter = this.props.tags.map((title, index) => <Tag title={title} key={index} />);
 
-    let all_books = this.props.books.map((book, index) => (
+    let pdf_books = this.props.pdf_books.map((book, index) => (
       <BooksCard
         title={book.title}
         author={book.author}
         description={book.description}
-        downloadLink={book.downloadLink}
-        grade={book.grade}
+        downloadLink={book.downloadUrl}
+        grade={book.gradeLevel}
         key={index}
       />
+    ));
+
+    let hc_books = this.props.hc_books.map((book, index) => (
+      <HCCard title={book.title} key={index} imageUrl={book.imageUrl} />
     ));
 
     return (
@@ -55,7 +71,8 @@ export default class BooksDisplayPage extends Component {
           {" "}
           <div className={"tags-container"}>{tags_filter}</div>
           <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", padding: "16px" }}>
-            {all_books}
+            {pdf_books}
+            {hc_books}
           </div>
         </div>
       </div>

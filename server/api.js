@@ -46,6 +46,12 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.post("/filter", async (req, res) => {
+  let pdf_books = await PDF.find(req.body);
+  let hc_books = await HardCoverBook.find(req.body);
+  console.log("this is all books", pdf_books, hc_books);
+  res.send(JSON.stringify({ pdf_books: pdf_books, hc_books: hc_books }));
+});
 router.post("/add_pdf", async (req, res) => {
   //req.body must contain all the following fields
   let newBook = new PDF({
@@ -71,6 +77,32 @@ router.post("/add_pdf", async (req, res) => {
     });
 });
 
+router.post("/add_hc_book", (req, res) => {
+  let newBook = new HardCoverBook({
+    title: req.body.title,
+    author: req.body.author,
+    subject: req.body.subject,
+    description: req.body.description,
+    edition: 1,
+    gradeLevel: "Fix me",
+    imageUrl: req.body.imageUrl,
+    price: req.body.price,
+    sellerLocation: req.body.sellerLocation,
+    sellerPhoneNumber: req.body.sellerPhoneNumber,
+    sellerEmail: "fix me",
+    sellerId: "fix me",
+  });
+
+  newBook
+    .save()
+    .then((book) => {
+      res.send(JSON.stringify({ book: book }));
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send(JSON.stringify({ error: "error" }));
+    });
+});
 router.post("/find_hcbook_with_filter", async (req, res) => {
   //Assumes req.body is a valid search query
 
