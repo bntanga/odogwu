@@ -16,6 +16,7 @@
 // validator runs some basic checks to make sure you've set everything up correctly
 // this is a tool provided by staff, so you don't need to worry about it
 const ussd = require("./ussd.js");
+const searchOps = require("./searchOps.js");
 // const validator = require("./validator");
 // validator.checkSetup();
 
@@ -28,7 +29,7 @@ const path = require("path"); // provide utilities for working with file and dir
 const bodyParser = require("body-parser");
 const api = require("./api");
 const auth = require("./auth");
-
+const { createProxyMiddleware } = require('http-proxy-middleware');
 // socket stuff
 const socket = require("./server-socket");
 const { Console } = require("console");
@@ -74,7 +75,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // ****************************************************
 // USSD INTERFACE
 // ****************************************************
-
+// app.use('/api', createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
 let subjects = ["PHYSICS", "CHEMISTRY", "MATHEMATICS", "BIOLOGY", "ENGLISH", "WOODWORK"];
 
 let subjects_string = `CON SUBJECTS
@@ -86,11 +87,12 @@ subjects.map((subject, index) => {
 });
 
 app.post("/ussd", (req, res) => {
-  console.log("ussed");
-  console.log(req.body);
+  // console.log("ussed");
+  // console.log(req.body);
   let { sessionId, serviceCode, phoneNumber, text } = req.body;
   // text = ""
   // console.log(req.body)
+  console.log(text);
   if (text == "") {
     // This is the first request. Note how we start the response with CON
     let response = `CON WELCOME TO ODOGWU LIBRARY
@@ -136,6 +138,8 @@ app.post("/ussd", (req, res) => {
       var search_paid_physical_by_author = `1*${index + 1}*2*2*2`;
       var search_paid_physical_by_level = `1*${index + 1}*2*2*3`;
 
+      var search_free_pdf_by_title_input = 'dsd'
+
       if (choose_subject === text) {
         response = `CON ${subject} Books
       1. PDF
@@ -163,7 +167,18 @@ app.post("/ussd", (req, res) => {
       2. Search by Author
       3. Search by Level`;
       } else if (search_free_pdf_by_title === text) {
-      } else if (search_free_pdf_by_author === text) {
+            console.log(text);
+        response = `CON Search ${subject} Free PDFs by Title
+
+        INPUT
+          `;   
+      } else if (search_free_pdf_by_title_input===text){
+
+
+
+      }
+      
+      else if (search_free_pdf_by_author === text) {
       } else if (search_free_pdf_by_level === text) {
       } else if (search_free_physical_by_title == text) {
       } else if (search_free_physical_by_author == text) {
@@ -179,6 +194,9 @@ app.post("/ussd", (req, res) => {
     res.status(400).send("Bad request!");
   }
 });
+
+
+
 
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);
@@ -210,6 +228,12 @@ app.use((err, req, res, next) => {
     message: err.message,
   });
 });
+
+
+const pdfSchema = require("./models/pdfBook.js");
+
+// searchOps.searchPdfByAuthor("talber");
+
 
 // hardcode port to 3000 for now
 const port = 3000;
