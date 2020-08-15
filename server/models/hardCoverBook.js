@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 
 const HardCoverBookSchema = new mongoose.Schema({
-  title:{ type: String, default: "" },
-  author: { type: String, default: "" },
-  subject:{type:String,default:""},
-  format: { type: String, default: "Physical" },
+  title: { type: String, default: "" },
+  author: { type: Array, default: [] },
+  subject: { type: String, default: "" },
   description: { type: String, default: "" },
-  dateUploaded: { type: Date, default: Date.now()},
-  imageUrl: { type: String, default: "" },
+  edition: { type: Number, default: 1 },
+  gradeLevel: { type: String, default: "" },
+  dateUploaded: { type: Date, default: Date.now() },
   publicationDate: { type: String, default: "" },
+  imageUrl: { type: String, default: "" },
   price: { type: String, default: "" },
   sellerLocation: { type: String, default: "" },
   sellerPhoneNumber: { type: String, default: "" },

@@ -14,6 +14,8 @@ const User = require("./models/user");
 
 const HardCoverBook = require("./models/hardCoverBook");
 
+const PDF = require("./models/pdfBook");
+
 // import authentication library
 const auth = require("./auth");
 
@@ -44,20 +46,50 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-router.post("/add_hardcover_book", async (req, res) => {
+router.post("/filter", async (req, res) => {
+  console.log("filter called with body", req.body);
+  let pdf_books = await PDF.find(req.body);
+  let hc_books = await HardCoverBook.find(req.body);
+  console.log("this is all books", pdf_books, hc_books);
+  res.send(JSON.stringify({ pdf_books: pdf_books, hc_books: hc_books }));
+});
+router.post("/add_pdf", async (req, res) => {
   //req.body must contain all the following fields
+  let newBook = new PDF({
+    title: req.body.title,
+    author: req.body.author,
+    subject: req.body.subject,
+    format: req.body.format,
+    description: req.body.description,
+    edition: 1,
+    gradeLevel: req.body.gradeLevel,
+    downloadUrl: req.body.downloadUrl,
+    publicationDate: "fix me",
+  });
+
+  newBook
+    .save()
+    .then((book) => {
+      res.send(JSON.stringify({ book: book }));
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send(JSON.stringify({ error: "error" }));
+    });
+});
+
+router.post("/add_hc_book", (req, res) => {
   let newBook = new HardCoverBook({
     title: req.body.title,
     author: req.body.author,
     subject: req.body.subject,
-    format: "fix me",
     description: req.body.description,
-
+    edition: 1,
+    gradeLevel: req.body.gradeLevel,
     imageUrl: req.body.imageUrl,
-
-    price: "fix me",
-    sellerLocation: "fix me",
-    sellerPhoneNumber: "fix me",
+    price: req.body.price,
+    sellerLocation: req.body.sellerLocation,
+    sellerPhoneNumber: req.body.sellerPhoneNumber,
     sellerEmail: "fix me",
     sellerId: "fix me",
   });
@@ -72,7 +104,6 @@ router.post("/add_hardcover_book", async (req, res) => {
       res.status(500).send(JSON.stringify({ error: "error" }));
     });
 });
-
 router.post("/find_hcbook_with_filter", async (req, res) => {
   //Assumes req.body is a valid search query
 
