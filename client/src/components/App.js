@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Router, navigate } from "@reach/router";
+// import { Router, navigate } from "@reach/router";
+import {BrowserRouter as Router,Switch} from "react-router-dom";
 import NotFound from "./pages/NotFound.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import firebase from "./pages/firebase";
@@ -256,11 +257,13 @@ class App extends Component {
 
   render() {
     return (
+      <Router>
       <>
-        <NavBar />
-        <Router>
+          {<NavBar></NavBar>}
+          <div className="rootAppRenderContainer">
+          <Switch>
           <UploadBook
-            path="/upload"
+            path="/about"
             submitBook={this.submitBook}
             submitHCBook={this.submitHardCoverBook}
             subjects={sampleSubjects}
@@ -289,8 +292,10 @@ class App extends Component {
           {/*/>*/}
 
           <NotFound default />
-        </Router>
+          </Switch>
+          </div>
       </>
+      </Router>
     );
   }
 }
