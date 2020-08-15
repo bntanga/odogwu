@@ -17,6 +17,8 @@
 // this is a tool provided by staff, so you don't need to worry about it
 const ussd = require("./ussd.js");
 const searchOps = require("./searchOps.js");
+const appBot = require("./whatsappbot.js");
+
 // const validator = require("./validator");
 // validator.checkSetup();
 
@@ -29,7 +31,7 @@ const path = require("path"); // provide utilities for working with file and dir
 const bodyParser = require("body-parser");
 const api = require("./api");
 const auth = require("./auth");
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware } = require("http-proxy-middleware");
 // socket stuff
 const socket = require("./server-socket");
 const { Console } = require("console");
@@ -86,6 +88,9 @@ subjects.map((subject, index) => {
   `;
 });
 
+app.post("/bot", appBot.WhatsappBot.googleSearch);
+app.post("/botchoosepdftitle", appBot.WhatsappBot.optionChoose);
+
 app.post("/ussd", (req, res) => {
   // console.log("ussed");
   // console.log(req.body);
@@ -138,48 +143,106 @@ app.post("/ussd", (req, res) => {
       var search_paid_physical_by_author = `1*${index + 1}*2*2*2`;
       var search_paid_physical_by_level = `1*${index + 1}*2*2*3`;
 
-      var search_free_pdf_by_title_input = 'dsd'
+      var search_free_pdf_by_title_input = search_free_pdf_by_title + "*";
+
+      var search_free_pdf_by_author_input = search_free_pdf_by_author + "*";
+
+      var search_free_pdf_by_level_input = search_free_pdf_by_level + "*";
 
       if (choose_subject === text) {
         response = `CON ${subject} Books
       1. PDF
       2. HARD COPY      `;
+        res.send(response);
       } else if (choose_pdf_format === text) {
         response = `CON ${subject} PDFs Books
         1. FREE`;
+        res.send(response);
       } else if (choose_physical_format === text) {
         response = `CON ${subject} Physical Books
         1. FREE
         2. PAID`;
+        res.send(response);
       } else if (choose_pdf_price_tag_free === text) {
         response = `CON ${subject} Free PDFs 
         1. Search by Title
         2. Search by Author
         3. Search by Level`;
+        res.send(response);
       } else if (choose_physical_price_tag_free === text) {
         response = `CON ${subject} Free Physical Books 
         1. Search by Title
         2. Search by Author
         3. Search by Level`;
+        res.send(response);
       } else if (choose_physical_price_tag_paid === text) {
         response = `CON ${subject}  Free Physical PDFs 
       1. Search by Title
       2. Search by Author
       3. Search by Level`;
+        res.send(response);
       } else if (search_free_pdf_by_title === text) {
-            console.log(text);
+        console.log(text);
         response = `CON Search ${subject} Free PDFs by Title
 
         INPUT
-          `;   
-      } else if (search_free_pdf_by_title_input===text){
+          `;
+        res.send(response);
+      } else if (search_free_pdf_by_author === text) {
+        console.log(text);
+        response = `CON Search ${subject} Free PDFs Author
 
-
-
-      }
-      
-      else if (search_free_pdf_by_author === text) {
+    INPUT
+      `;
+        res.send(response);
       } else if (search_free_pdf_by_level === text) {
+        console.log(text);
+        response = `CON Search ${subject} Free PDFs by Level
+
+INPUT
+  `;
+        res.send(response);
+      } else if (text.includes(search_free_pdf_by_title_input)) {
+        var words_array = text.split("*");
+        var search_word = words_array[words_array.length - 1];
+        console.log(words_array);
+
+        var supposed_number = Number(search_word);
+        // if typeof(){
+        if (words_array.length < 7) {
+          searchOps.searchPdfByTitle(search_word, res, false, 0, phoneNumber);
+        } else {
+          search_word = words_array[words_array.length - 2];
+          console.log(search_word);
+          searchOps.searchPdfByTitle(search_word, res, true, supposed_number, phoneNumber);
+        }
+      } else if (text.includes(search_free_pdf_by_author_input)) {
+        var words_array = text.split("*");
+        var search_word = words_array[words_array.length - 1];
+        console.log(words_array);
+        console.log(search_word);
+
+        var supposed_number = Number(search_word);
+        // if typeof(){
+        if (words_array.length < 7) {
+          searchOps.searchPdfByAuthor(search_word, res, false, 0, phoneNumber);
+        } else {
+          search_word = words_array[words_array.length - 2];
+          searchOps.searchPdfByAuthor(search_word, res, true, supposed_number, phoneNumber);
+        }
+      } else if (text.includes(search_free_pdf_by_level_input)) {
+        var words_array = text.split("*");
+        var search_word = words_array[words_array.length - 1];
+        var supposed_number = Number(search_word);
+        // if typeof(){
+        if (words_array.length < 7) {
+          searchOps.searchPdfByLevel(search_word, res, false, 0, phoneNumber);
+        } else {
+          search_word = words_array[words_array.length - 2];
+          searchOps.searchPdfByLevel(search_word, res, true, supposed_number, phoneNumber);
+        }
+
+        // }
       } else if (search_free_physical_by_title == text) {
       } else if (search_free_physical_by_author == text) {
       } else if (search_free_physical_by_level == text) {
@@ -189,14 +252,11 @@ app.post("/ussd", (req, res) => {
       }
     });
 
-    res.send(response);
+    // res.send(response);
   } else {
     res.status(400).send("Bad request!");
   }
 });
-
-
-
 
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);
@@ -229,11 +289,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-
-const pdfSchema = require("./models/pdfBook.js");
+// const pdfSchema = require("./models/pdfBook.js");
+const e = require("express");
 
 // searchOps.searchPdfByAuthor("talber");
-
 
 // hardcode port to 3000 for now
 const port = 3000;
