@@ -2,38 +2,54 @@ import React, { Component, useState } from "react";
 import "./SideBar.css";
 import BooksDisplayPage from "./BooksDisplayPage";
 
-let FilterGroup = ({ title, fields, manageFilters }) => {
-  let [activeFilters, setActiveFilters] = useState("");
+class FilterGroup extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { activeFilter: "" };
+  }
 
-  let handleChange = (e, value) => {
+  handleChange = async (e, value) => {
+    console.log("event target checked", e.target.checked);
     if (e.target.checked) {
-      // activeFilters.push(value);
-      setActiveFilters(value);
-    } else {
-      // const index = activeFilters.indexOf(value);
-      // if (index > -1) {
-      //   activeFilters.splice(index, 1);
-      // setActiveFilters(activeFilters)
-      setActiveFilters("");
-    }
-  };
-  manageFilters(title, activeFilters);
+      // activeFilter.push(value);
+      console.log("in true");
+      console.log("this is value", value);
+      await this.setState({ activeFilter: value });
+      console.log("new active filters", this.state.activeFilter);
+      // setActiveFilter(value);
 
-  let fieldsArray = fields.map((name, index) => (
-    <div key={index}>
-      <input type="checkbox" id={name} name={name} onChange={(e) => handleChange(e, name)} />
-      <label htmlFor={name} className={"checkbox-text"}>
-        {name}
-      </label>
-    </div>
-  ));
-  return (
-    <div>
-      <div className={"filter-group-title"}>{title}</div>
-      <div className={"checkboxes"}>{fieldsArray}</div>
-    </div>
-  );
-};
+      // activeFilter = value;
+      // console.log("this is active filter again", activeFilter);
+    } else {
+      // const index = activeFilter.in
+      // dexOf(value);
+      // if (index > -1) {
+      //   activeFilter.splice(index, 1);
+      // setActiveFilter(activeFilter)
+      await this.setState({ activeFilter: "" });
+    }
+    console.log("this is active filters", this.state.activeFilter);
+    this.props.manageFilters(this.props.title, this.state.activeFilter);
+  };
+
+  render() {
+    let fieldsArray = this.props.fields.map((name, index) => (
+      <div key={index}>
+        <input type="checkbox" id={name} name={name} onChange={(e) => this.handleChange(e, name)} />
+        <label htmlFor={name} className={"checkbox-text"}>
+          {name}
+        </label>
+      </div>
+    ));
+
+    return (
+      <div>
+        <div className={"filter-group-title"}>{this.props.title}</div>
+        <div className={"checkboxes"}>{fieldsArray}</div>
+      </div>
+    );
+  }
+}
 
 export default class SideBar extends Component {
   // props: filterGroups = [{title: "Price", fields: ["cheap", "expensive"]}, .....]

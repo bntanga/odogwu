@@ -27,12 +27,12 @@ let sampleSubjects = [
   { image: "", title: "Biology" },
   { image: "", title: "Geography" },
 ];
-
+let gradeLevels = ["Advanced Level", "Senior Secondary", "Junior Secondary", "Primary"];
 let sampleFilterGroups = [
   { title: "Price", fields: ["high", "low"] },
   {
     title: "Grade",
-    fields: ["Advanced Level", "Junior Secondary", "Senior Secondary", "Primary School"],
+    fields: gradeLevels,
   },
 ];
 
@@ -84,7 +84,7 @@ class App extends Component {
     return url;
   };
 
-  submitBook = async (bookName, bookAuthor, description, subject, file) => {
+  submitBook = async (bookName, bookAuthor, description, subject, file, grade) => {
     console.log("submit book called");
 
     let bucket = "books";
@@ -104,6 +104,7 @@ class App extends Component {
           subject: subject,
           downloadUrl: downloadUrl,
           format: splitArr[splitArr.length - 1],
+          gradeLevel: grade,
         });
 
         console.log("this is body", body);
@@ -136,6 +137,7 @@ class App extends Component {
     description,
     subject,
     file,
+    grade,
     price,
     location,
     phoneNumber
@@ -158,6 +160,7 @@ class App extends Component {
           subject: subject,
           imageUrl: imageUrl,
           price: price,
+          gradeLevel: grade,
           sellerLocation: location,
           sellerPhoneNumber: phoneNumber,
         });
@@ -193,7 +196,7 @@ class App extends Component {
       switch (key) {
         case "Grade":
           if (value !== "") {
-            body["grade"] = value;
+            body["gradeLevel"] = value;
           }
 
           break;
@@ -262,6 +265,7 @@ class App extends Component {
             submitHCBook={this.submitHardCoverBook}
             subjects={sampleSubjects}
             bookType="hardCover"
+            gradeLevels={gradeLevels}
           />
           <SubjectFilterPage
             categories={sampleSubjects}

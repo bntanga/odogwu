@@ -53,7 +53,9 @@ let HCCard = ({
 
   let flipCardClick = (e) => {
     e.preventDefault();
+    console.log("prev state", flipped);
     flipped ? flipCard(false) : flipCard(true);
+    console.log("card flipped", flipped);
   };
   return (
     <div className={"books-card-part2"} onClick={flipCardClick}>

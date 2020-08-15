@@ -47,6 +47,7 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/filter", async (req, res) => {
+  console.log("filter called with body", req.body);
   let pdf_books = await PDF.find(req.body);
   let hc_books = await HardCoverBook.find(req.body);
   console.log("this is all books", pdf_books, hc_books);
@@ -61,7 +62,7 @@ router.post("/add_pdf", async (req, res) => {
     format: req.body.format,
     description: req.body.description,
     edition: 1,
-    gradeLevel: "fix me",
+    gradeLevel: req.body.gradeLevel,
     downloadUrl: req.body.downloadUrl,
     publicationDate: "fix me",
   });
@@ -84,7 +85,7 @@ router.post("/add_hc_book", (req, res) => {
     subject: req.body.subject,
     description: req.body.description,
     edition: 1,
-    gradeLevel: "Fix me",
+    gradeLevel: req.body.gradeLevel,
     imageUrl: req.body.imageUrl,
     price: req.body.price,
     sellerLocation: req.body.sellerLocation,

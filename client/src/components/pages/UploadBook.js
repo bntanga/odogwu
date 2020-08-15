@@ -16,6 +16,7 @@ export default class UploadBook extends Component {
       price: "",
       sellerLocation: "",
       sellerPhoneNumber: "",
+      gradeLevel: "",
     };
   }
   //props  => submit function that submits all data to API
@@ -76,6 +77,16 @@ export default class UploadBook extends Component {
       </Dropdown.Item>
     ));
 
+    let gradeLevels = this.props.gradeLevels.map((gradeLevel, index) => (
+      <Dropdown.Item
+        href="#/action-1"
+        key={index}
+        onClick={() => this.setState({ gradeLevel: gradeLevel })}
+      >
+        {gradeLevel}
+      </Dropdown.Item>
+    ));
+
     return (
       <div>
         <label htmlFor="myfile">Select a file:</label>
@@ -115,17 +126,20 @@ export default class UploadBook extends Component {
           label="Book description"
           inputFunction={this.descriptionFunc}
         />
+
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
             {this.state.subject ? this.state.subject : "Select Subject"}
           </Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            {/*<Dropdown.Item href="#/action-1">Action</Dropdown.Item>*/}
-            {/*<Dropdown.Item href="#/action-2">Another action</Dropdown.Item>*/}
-            {/*<Dropdown.Item href="#/action-3">Something else</Dropdown.Item>*/}
-            {subjects}
-          </Dropdown.Menu>
+          <Dropdown.Menu>{subjects}</Dropdown.Menu>
+        </Dropdown>
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            {this.state.gradeLevel ? this.state.gradeLevel : "Select Grade Level"}
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>{gradeLevels}</Dropdown.Menu>
         </Dropdown>
         {this.props.bookType === "hardCover" ? hardCoverInputs : null}
         {this.props.bookType === "hardCover" ? (
@@ -138,6 +152,7 @@ export default class UploadBook extends Component {
                 this.state.description,
                 this.state.subject,
                 this.state.bookPath,
+                this.state.gradeLevel,
                 this.state.price,
                 this.state.sellerLocation,
                 this.state.sellerPhoneNumber
@@ -155,7 +170,8 @@ export default class UploadBook extends Component {
                 this.state.bookAuthor,
                 this.state.description,
                 this.state.subject,
-                this.state.bookPath
+                this.state.bookPath,
+                this.state.gradeLevel
               )
             }
           >
