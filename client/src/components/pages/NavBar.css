@@ -107,13 +107,8 @@
  
 }
 
-.Navbar-nav-upload-color{
 
-    background-color: var(--primary--subtile);
-    height:2px;
-    width:260px;
-}
-.NavBar-nav-span:hover + .Navbar-nav-upload-color{
+.NavBar-nav-span:hover {
     font-size: 2rem;
     color:var(--primary--subtile);
     
