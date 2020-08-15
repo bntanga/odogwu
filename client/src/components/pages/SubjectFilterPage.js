@@ -1,29 +1,44 @@
 import React, { Component } from "react";
 import "./SubjectFilterPage.css";
 
-let SubjectCard = ({ image, title }) => (
-  <div className="card card-container">
-    <div className={"card-image"}>{image}</div>
-    <div className={"subject-title"}>{title}</div>
-  </div>
-);
 
 export default class SubjectFilterPage extends Component {
-  //Props are list of categories
-  // categories = [{image: "", title: ""}]
+
   render() {
     let categories = this.props.categories.map((item, index) => (
       <div onClick={() => this.props.subjectFilter(item.title)} key={index}>
         {" "}
-        <SubjectCard image={item.image} title={item.title} />
+        <SubjectCardView image={item.image} title={item.title} />
       </div>
     ));
 
     return (
       <div className={"subject-page-container"}>
-        <div className={"search-bar"}>Search</div>
-        <div className={"page-container"}>{categories}</div>
+        <div className="Search-bar-accessories-container">
+          <div className="Search-bar-accessories">
+            <input
+              type="text"
+              className="Search-bar-input-text"
+              placeholder="Search a Subject"
+            ></input>
+            <input type="button" className="Search-bar-input-button"></input>
+          </div>
+        </div>
+        <div className="Card-holder">{categories}</div>
       </div>
     );
   }
+}
+
+function SubjectCardView(props) {
+  return (
+    <div className="Card-container">
+      <div className="Card-container-header">
+
+      </div>
+      <div className="Card-container-body">
+        {props.title}
+      </div>
+    </div>
+  );
 }

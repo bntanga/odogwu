@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    margin-top:4rem;
 
 }
 .page-container{
@@ -29,12 +30,107 @@
     color: white;
     font-size: var(--l);
 }
-.search-bar{
-  border: 1px solid black;
+.Search-bar-accessories-container{
+
+    width: 900px;
+    display:flex;
+    justify-content: center;
+    flex-direction:column;
+    align-items:center;
+
+
+
+
+}
+
+.Search-bar-accessories{
+
+    width : 600px;
+    height : 2rem;
+    display:flex;
+    align-items:center;
+    flex-direction: row;
+    margin-left:5rem;
+
+}
+.Search-bar-input-text{
+  border: 3px solid var(--primary--subtile);
     border-radius: 8px;
     padding: 8px;
     width: 500px;
-    text-align: center;
     margin: 8px;
+    height:3rem;
+    outline:3px;
+    outline-color : var(--primary1);
+}
 
+.Search-bar-input-text:hover{
+    border: 3px solid var(--primary1);
+      border-radius: 8px;
+      padding: 8px;
+      width: 500px;
+      margin: 8px;
+      height:3rem;
+      outline-color : var(--primary1);
+  }
+
+.Search-bar-input-button{
+    background-color:var(--accentpink);
+    border-radius : 100%;
+    height: 2.5em;
+    width: 2.5rem;
+    outline:0;
+}
+
+
+.Card-holder{
+
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-evenly;
+    margin-top:3rem;
+   
+
+
+}
+.Card-container{
+
+    width:300px;
+    height:300px;
+    border-radius:12px;
+    background-color:var(--primary--subtile);
+    margin:1.5rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.Card-container:hover{
+
+    width:300px;
+    height:300px;
+    transform:scale(1.1);
+    border-radius:12px;
+    background-color:var(--primary--subtile);
+    margin:1.5rem;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+       -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;
+}
+.Card-container-header{
+
+    height:4rem;
+    width:300px;
+    background-color:var(--primary1);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+}
+
+.Card-container-body{
+    background-color:var(--primary--subtile);
+    color:white;
+    font-size:3rem;
+    text-align:center;
+    padding-top:4rem;
 }

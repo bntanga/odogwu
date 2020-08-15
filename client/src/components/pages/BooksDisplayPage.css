@@ -1,13 +1,4 @@
-.tag-title{
-    background-color: var(--primary1);
-    color: white;
-    padding: 4px;
-    border-radius: 4px;
-    width: 100px;
-    margin: 8px;
-    text-align: center;
 
-}
 .tags-container{
     display: flex;
     flex-direction: row;
@@ -68,3 +59,214 @@ background-color: var( --tertiary1);
     color: white;
 }
 
+
+.Books-display-container{
+
+    display:flex;
+    flex-direction: row;
+    justify-content:flex-start;
+
+}
+
+.Books-display-container-view{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    margin-top:4rem;
+
+}
+.Books-display-container-view-tags-container{
+
+    height:3rem;
+    width:1000px;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+
+.Books-display-container-view-items{
+
+    width:1000px;
+    height: 600px;
+    display:flex;
+    overflow:scroll;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top:3rem;
+
+}
+
+.PDF-book-card-container{
+  
+    width:275px;
+    height:310px;  
+    margin:1rem;
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+   
+}
+.tag-title{
+    background-color: var(--primary--subtile);
+    color: white;
+    border-radius: 12px;
+    width: 200px;
+    height:50px;
+    font-size:2rem;
+    margin-bottom : 2rem;
+    text-align: center;
+
+}
+.tag-title:hover{
+    background-color: var(--primary1);
+    color: var(--primary--subtile);
+    border-radius: 12px;
+    width: 200px;
+    height:50px;
+    font-size:2rem;
+    margin-bottom : 2rem;
+    text-align: center;
+
+}
+
+.PDF-book-card-container:hover{
+  
+    width:275px;
+    height:310px;   
+    margin:1rem;
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+         box-shadow: 0 10px 6px -6px #777;
+         transform:scale(1.1);
+   
+}
+
+
+.PDF-book-card-container-body{
+    background-color:var(--primary1--shade);
+    height:250px;
+    border-top-left-radius:12px;
+    border-top-right-radius: 12px;
+    display:flex;
+    padding-top:1rem;
+    flex-direction:column;
+    justify-content:space-evenly;
+    
+}
+
+.PDF-book-card-container-footer{
+
+    background-color:var(--primary--subtile);
+    height: 60px;
+    text-align:center;
+    border-bottom-left-radius:12px;
+    border-bottom-right-radius: 12px;
+    color:white;
+    font-size:1.5rem;
+    padding-top:0.8rem;
+
+}
+.PDF-book-card-info-tile{
+
+    height:4rem;
+    font-size:1rem;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    padding:5px;
+    border-top:1px solid;
+    
+
+    
+}
+
+.PDF-book-card-info-tile-tag{
+    /* height:2rem; */
+    width:100px;
+    text-align:center;
+     
+}
+.PDF-book-card-info-tile-detail{
+    /* height:2rem; */
+    width:150px 
+
+}
+
+.PDF-book-card-info-tile:hover{
+
+    height:4rem;
+    background-color:var(--primary--subtile);
+    opacity:0.5;
+    color:white;
+    /* margin:0.5rem; */
+
+}
+
+.OtherSideBody{
+
+
+    width:275px;
+    height:310px;  
+    margin:1rem;
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-start;
+
+} 
+.PDF-book-card-container-body-other-side{
+
+    width:275px;
+    height:310px; 
+    border-radius:12px;
+    display:flex;
+    padding-top:1rem;
+    flex-direction:column;
+    justify-content:space-evenly; 
+    background-color:var(--primary--subtile);
+    color:white;
+
+}
+
+.PDF-book-card-info-tile-other-side{
+
+    height:4rem;
+    font-size:1rem;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    padding:5px;
+    border-top:1px solid;
+    
+    /* margin:0.5rem; */
+
+}
+.PDF-book-card-info-tile-other-side:hover{
+
+    height:4rem;
+    background-color:var(--primary1--shade);
+    color:white;
+
+}
+
+.PDF-book-card-container-body-card-flip{
+
+    background-color:var(--primary1--shade);
+    height:250px;
+    border-top-left-radius:12px;
+    border-top-right-radius: 12px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+}

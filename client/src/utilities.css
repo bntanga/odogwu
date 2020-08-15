@@ -17,8 +17,10 @@
 /* TODO: REPLACE WITH YOUR OWN FONT! */
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
+
 :root {
   --primary1: #F3AE52;
+  --primary1--shade : rgba(243, 174, 82,0.5);
   --primary--dim: #6987db;
   --secondary1: #8EF726;
   --tertiary1: #582F11;
@@ -28,6 +30,7 @@
   --white: #fff;
   --primary--subtile:#351F19;
   --accentpink:#F8A2F9;
+  --accentpink--shade: rgba(248, 162, 249,0.4);
   
 
   --xs: 4px;

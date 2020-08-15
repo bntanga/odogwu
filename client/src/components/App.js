@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-// import { Router, navigate } from "@reach/router";
-import {BrowserRouter as Router,Switch} from "react-router-dom";
+import {navigate,Router } from "@reach/router";
+// import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound from "./pages/NotFound.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import firebase from "./pages/firebase";
@@ -30,7 +30,7 @@ let sampleSubjects = [
 ];
 let gradeLevels = ["Advanced Level", "Senior Secondary", "Junior Secondary", "Primary"];
 let sampleFilterGroups = [
-  { title: "Price", fields: ["high", "low"] },
+  { title: "Price", fields: ["High", "Low"] },
   {
     title: "Grade",
     fields: gradeLevels,
@@ -257,45 +257,35 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-      <>
-          {<NavBar></NavBar>}
-          <div className="rootAppRenderContainer">
-          <Switch>
-          <UploadBook
-            path="/about"
-            submitBook={this.submitBook}
-            submitHCBook={this.submitHardCoverBook}
-            subjects={sampleSubjects}
-            bookType="hardCover"
-            gradeLevels={gradeLevels}
-          />
-          <SubjectFilterPage
-            categories={sampleSubjects}
-            path="/"
-            subjectFilter={this.subjectFilter}
-          />
-          <BooksDisplayPage
-            tags={["Books", "Papers", "Curriculum", "Youtube"]}
-            path="/books_display"
-            filterGroups={sampleFilterGroups}
-            pdf_books={this.state.pdf_books}
-            hc_books={this.state.hc_books}
-            filterFunction={this.anyFilter}
-          />
-
-          {/*<Skeleton*/}
-          {/*  path="/"*/}
-          {/*  handleLogin={this.handleLogin}*/}
-          {/*  handleLogout={this.handleLogout}*/}
-          {/*  userId={this.state.userId}*/}
-          {/*/>*/}
-
-          <NotFound default />
-          </Switch>
-          </div>
-      </>
-      </Router>
+     
+        <>
+        <NavBar></NavBar>
+        {/* <div className="rootAppRenderContainer"> */}
+         <Router>
+                <UploadBook
+                 path="/about"
+                  submitBook={this.submitBook}
+                  submitHCBook={this.submitHardCoverBook}
+                  subjects={sampleSubjects}
+                  bookType="hardCover"
+                  gradeLevels={gradeLevels}
+                />
+                <SubjectFilterPage 
+                path="/"
+                categories={sampleSubjects} subjectFilter={this.subjectFilter} />
+                <BooksDisplayPage
+                  path="/books_display"
+                  tags={["Books", "Papers", "Curriculum", "Youtube"]}
+                  filterGroups={sampleFilterGroups}
+                  pdf_books={this.state.pdf_books}
+                  hc_books={this.state.hc_books}
+                  filterFunction={this.anyFilter}
+                />
+              <NotFound default />
+          </Router>
+          {/* </div> */}
+        </>
+      
     );
   }
 }

@@ -2,6 +2,24 @@ import React, { Component, useState } from "react";
 import "./SideBar.css";
 import BooksDisplayPage from "./BooksDisplayPage";
 
+
+function SearchBarView(){
+
+  return(
+    <div className="Side-Search-bar-accessories-container">
+    <div className="Side-Search-bar-accessories">
+      <input
+        type="text"
+        className="Side-Search-bar-input-text"
+        placeholder="Search"
+      ></input>
+      <input type="button" className="Side-Search-bar-input-button"></input>
+    </div>
+  </div>
+
+  )
+
+}
 class FilterGroup extends Component {
   constructor(props) {
     super(props);
@@ -34,8 +52,8 @@ class FilterGroup extends Component {
 
   render() {
     let fieldsArray = this.props.fields.map((name, index) => (
-      <div key={index}>
-        <input type="checkbox" id={name} name={name} onChange={(e) => this.handleChange(e, name)} />
+      <div className="Filter-group-checkbox-view" key={index}>
+        <input type="checkbox" id={name} name={name} onChange={(e) => this.handleChange(e, name)} toggle />
         <label htmlFor={name} className={"checkbox-text"}>
           {name}
         </label>
@@ -43,12 +61,17 @@ class FilterGroup extends Component {
     ));
 
     return (
-      <div>
-        <div className={"filter-group-title"}>{this.props.title}</div>
-        <div className={"checkboxes"}>{fieldsArray}</div>
-      </div>
+      <FilterGroupView fieldsArray={fieldsArray} title={this.props.title}/>
     );
   }
+}
+
+function FilterGroupView(props) {
+  return(
+  <div className="Filter-group-container">
+    <div className="Filter-group-title">{props.title}</div>
+    <div className="Filter-group-checkboxes">{props.fieldsArray}</div>
+  </div>)
 }
 
 export default class SideBar extends Component {
@@ -63,6 +86,7 @@ export default class SideBar extends Component {
     this.props.filterFunction(this.filters);
   };
   render() {
+
     let FilterGroupArray = this.props.filterGroups.map((item, index) => (
       <FilterGroup
         title={item.title}
@@ -71,6 +95,9 @@ export default class SideBar extends Component {
         manageFilters={this.manageFilters}
       />
     ));
-    return <div className={"sidebar-container"}>{FilterGroupArray}</div>;
+    return <div className={"sidebar-container"}>      
+      <SearchBarView/>
+      {FilterGroupArray}    
+      </div>;
   }
 }

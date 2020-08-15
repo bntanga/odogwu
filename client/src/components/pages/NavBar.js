@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+// import { BrowserRouter as Router, Link } from "react-router-dom";
+import {Link} from "@reach/router";
+
 import "./NavBar.css";
 
 var navLinkStyle = {
@@ -34,6 +36,9 @@ function NavBarView(props) {
       <div className={"nav-bar-title"}>ODOGWU</div>
       <div className="NavBar-nav-container">
         <div className="NavBar-nav">
+          <Link className="NavBar-nav-link" to="/">
+            Home
+          </Link>
           <Link className="NavBar-nav-link" to="/about">
             About
           </Link>
