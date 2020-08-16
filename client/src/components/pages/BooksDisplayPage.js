@@ -98,7 +98,9 @@ function QuestionCardView({
 
 function YouTubeView(props) {
   const [flipped, flipCard] = useState(false);
-
+  var url = props.videoUrl;
+  var url_substrings = url.split("/");
+  var songId = url_substrings[url_substrings.length - 1];
   let flipCardClick = (e) => {
     e.preventDefault();
     console.log("prev state", flipped);
@@ -111,7 +113,7 @@ function YouTubeView(props) {
       <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
         <>
           <div
-            // style={{ backgroundImage: `url(${imageUrl})` }}
+            style={{ alignItems:"center", fontSize:"1rem"}}
             className="PDF-book-card-container-body-card-flip"
           >
             <iframe
@@ -119,11 +121,11 @@ function YouTubeView(props) {
               type="text/html"
               width="250"
               height="250"
-              src={`https://www.youtube.com/embed/${props.videoUrl}`}
+              src={`https://www.youtube.com/embed/${songId}`}
               frameborder="2"
             />
           </div>
-          <div className={"PDF-book-card-container-footer"}>{props.title}</div>
+          <div style={{ alignItems:"center", height:"100px"}} className={"PDF-book-card-container-footer"}>{props.title}</div>
         </>
         <div className="PDF-book-card-container-body-other-side">
           <div className="PDF-book-card-info-tile-other-side">
