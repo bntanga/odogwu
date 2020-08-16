@@ -42,7 +42,7 @@ function PdfBookCardView ({ title, author, downloadLink, description, grade }){
 
 
 
-function PhyicalBookCardView({
+function PhysicalBookCardView({
   imageUrl,
   title,
   price,
@@ -104,6 +104,44 @@ let Tag = ({ title }) => <div className={"tag-title"}>{title}</div>;
 
 
 export default class BooksDisplayPage extends Component {
+
+  constructor(props){
+    super(props);
+    this.state ={
+      searchText:" ",
+    }
+
+  }
+
+  search= async()=>{
+    console.log("subject filter called with", this.props.subject);
+    let body = JSON.stringify({ subject: this.props.subject, text:this.state.searchText});
+    fetch("/api/subjectSearch", {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: body,
+    }).then( async(data)=>{  
+      let aw = await data.json()
+      this.props.handleSubjectSearch(aw);
+    }).catch((err)=>{
+      console.log(err)
+
+    })
+    // let dataJSON = data.json();
+    // this.props.handleSubjectSearch(data.json());
+    // console.log(dataJSON);
+
+
+
+    // let responseJSON = await books.json();
+    // console.log("this is response", responseJSON);
+    // this.setState({ pdf_books: responseJSON.pdf_books, hc_books: responseJSON.hc_books });
+    // await navigate("/books_display");
+  }
+  handleText=(ev)=>{
+    this.setState({searchText:ev.target.value})
+  }
+
   render() {
     let tags_filter = this.props.tags.map((title, index) => <Tag title={title} key={index} />);
 
@@ -119,7 +157,7 @@ export default class BooksDisplayPage extends Component {
     ));
 
     let hc_books = this.props.hc_books.map((book, index) => (
-      <PhyicalBookCardView
+      <PhysicalBookCardView
         title={book.title}
         key={index}
         imageUrl={book.imageUrl}
@@ -136,6 +174,8 @@ export default class BooksDisplayPage extends Component {
         <SideBar
           filterGroups={this.props.filterGroups}
           filterFunction={this.props.filterFunction}
+          searchSubject = {this.search}
+          handleChange = {this.handleText}
         />
         <div className="Books-display-container-view">
           <div className="Books-display-container-view-tags-container">{tags_filter}</div>

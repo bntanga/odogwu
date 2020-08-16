@@ -15,7 +15,7 @@ const User = require("./models/user");
 const HardCoverBook = require("./models/hardCoverBook");
 
 const PDF = require("./models/pdfBook");
-
+const Fuse = require("fuse.js");
 // import authentication library
 const auth = require("./auth");
 
@@ -79,12 +79,68 @@ router.post("/add_pdf", async (req, res) => {
 });
 
 
+router.post("/subjectSearch", async (req,res)=>{
+
+    console.log(req.body)
+    let combined_list = [];
+    let pdfs = [];
+    let hardbook = [];
+    await PDF.find({subject:req.body.subject}).then((docs)=>{
+      
+      docs.map((doc)=>{
+        pdfs.push(doc);
+      })
+    
+    }).catch((err)=>{
+      console.log(err);
+      // return []
+    });
+    await HardCoverBook.find({subject:req.body.subject}).then((docs)=>{     
+       docs.map((doc)=>{
+        hardbook.push(doc);
+    })}).catch((err)=>{
+      console.log(err);
+    
+    });;
+
+    const pdffuseOptions = {
+       includeScore: true,
+       keys :['title','author','description']
+    };
+    const fusepdfs = new Fuse(pdfs, pdffuseOptions);  
+
+    const resultpdf = fusepdfs.search(req.body.text).map((doc)=>{
+      return doc.item;
+   });;
+  
+    const hcfuseOptions = {
+      includeScore: true,
+      keys :['title','author','description']
+   };
+   const fusehc = new Fuse(hardbook, hcfuseOptions);  
+
+   const resulthc = fusehc.search(req.body.text).map((doc)=>{
+
+      return doc.item;
+   });
+
+  //  console.log(JSON.stringify({pdf_books : resultpdf,hard_covers : resulthc}));
+
+
+  //  var data = {
+  //   pdf_books : resultpdf,
+  //   hard_covers : resulthc
+  //  }
+    // var result = resulthc.concat(resultpdf);
+
+
+    res.send(JSON.stringify({pdf_books : resultpdf,hard_covers : resulthc}));
+    
+
+});
+
 
 router.post("/search", async (req, res) => {
-  //sample_tags = [pdf_books, mathematics];
-  //empty tags means search all
-  //req.body.bookType must be one of pdf_books, hc_books, all
-  //req.body.pattern is the search query
   let tags = req.body.tags;
   if (tags === []) {
   }
@@ -105,18 +161,6 @@ router.post("/search", async (req, res) => {
 
   // let books_json = JSON.stringify(all_books);
   const fuseOptions = {
-    // isCaseSensitive: false,
-    // includeScore: false,
-    // shouldSort: true,
-    // includeMatches: false,
-    // findAllMatches: false,
-    // minMatchCharLength: 1,
-    // location: 0,
-    // threshold: 0.6,
-    // distance: 100,
-    // useExtendedSearch: false,
-    // ignoreLocation: false,
-    // ignoreFieldNorm: false,
     keys: req.body.tags,
   };
   // console.log("this is all books", all_books);
@@ -125,6 +169,7 @@ router.post("/search", async (req, res) => {
   const results = fuse.search(req.body.pattern);
   res.send(JSON.stringify(results));
 });
+
 
 router.post("/add_hc_book", (req, res) => {
   let newBook = new HardCoverBook({

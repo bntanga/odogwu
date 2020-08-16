@@ -3,7 +3,7 @@ import "./SideBar.css";
 import BooksDisplayPage from "./BooksDisplayPage";
 
 
-function SearchBarView(){
+function SearchBarView(props){
 
   return(
     <div className="Side-Search-bar-accessories-container">
@@ -12,8 +12,9 @@ function SearchBarView(){
         type="text"
         className="Side-Search-bar-input-text"
         placeholder="Search"
+        onChange={props.handleChange}
       ></input>
-      <input type="button" className="Side-Search-bar-input-button"></input>
+      <input type="button" onClick={props.searchSubject} className="Side-Search-bar-input-button"></input>
     </div>
   </div>
 
@@ -77,6 +78,10 @@ function FilterGroupView(props) {
 export default class SideBar extends Component {
   // props: filterGroups = [{title: "Price", fields: ["cheap", "expensive"]}, .....]
 
+  constructor(props){
+
+    super(props);
+  }
   state = {};
   filters = {};
   manageFilters = (title, activeFilter) => {
@@ -96,7 +101,7 @@ export default class SideBar extends Component {
       />
     ));
     return <div className={"sidebar-container"}>      
-      <SearchBarView/>
+      <SearchBarView searchSubject={this.props.searchSubject} handleChange={this.props.handleChange}/>
       {FilterGroupArray}    
       </div>;
   }

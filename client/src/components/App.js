@@ -70,6 +70,7 @@ class App extends Component {
       pdf_books: [],
       hc_books: [],
       uploadTopic : "Upload PDF",
+      subject: "",
 
     };
   }
@@ -82,6 +83,11 @@ class App extends Component {
     this.setState({uploadTopic:urldata.topic});
   }
 
+  handleSubjectSearch = (data) =>{
+    // console.log(data);
+    this.setState({ pdf_books: data.pdf_books});
+    this.setState({hc_books : data.hard_covers});
+  }
 
   getDownloadurl = async (fileName, bucket) => {
     console.log("get download URL called");
@@ -235,6 +241,7 @@ class App extends Component {
     });
     let responseJSON = await books.json();
     console.log("this is response", responseJSON);
+    this.setState({subject:subject});
     this.setState({ pdf_books: responseJSON.pdf_books, hc_books: responseJSON.hc_books });
     await navigate("/books_display");
   };
@@ -288,6 +295,8 @@ class App extends Component {
                   pdf_books={this.state.pdf_books}
                   hc_books={this.state.hc_books}
                   filterFunction={this.anyFilter}
+                  subject = {this.state.subject}
+                  handleSubjectSearch = {this.handleSubjectSearch}
                 />
               <NotFound default />
           </Router>
