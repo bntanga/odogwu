@@ -42,24 +42,18 @@ export default class UploadBook extends Component {
       paperMonth: "",
       paperNumber: "",
       paperBoard: "",
-      paperPath:"",
+      paperPath: "",
 
-      
       //attributes for videos
-      
+
       youtubeUrl: "",
-      youtubeVideoTitle :" ",
-      youtubeVideoDescription : " ",
+      youtubeVideoTitle: " ",
+      youtubeVideoDescription: " ",
 
       //question papers attributes
-
-      
-
     };
 
-    //attributes for videos 
-
-
+    //attributes for videos
   }
   //props  => submit function that submits all data to API
   // List of subjects
@@ -74,21 +68,15 @@ export default class UploadBook extends Component {
   sellerPhoneNumberFunc = (event) => this.setState({ sellerPhoneNumber: event.target.value });
 
   setVideoUrlFunc = (event) => this.setState({ youtubeUrl: event.target.value });
-  setVideoDescriptionFunc = (event) => this.setState({youtubeVideoDescription: event.target.value });
+  setVideoDescriptionFunc = (event) =>
+    this.setState({ youtubeVideoDescription: event.target.value });
   setVideoTitleFunc = (event) => this.setState({ youtubeVideoTitle: event.target.value });
 
-
-  submitPaper = (info) =>{
-
+  submitVideo = (info) => {
     console.log(info);
+  };
 
-  }
-  submitVideo =(info) =>{
-    console.log(info);
-  }
-  
-
-  handlePreview = ()=>{
+  handlePreview = () => {
     var url = this.state.youtubeUrl;
     var url_substrings = url.split("/");
     var songId = url_substrings[url_substrings.length - 1];
@@ -97,10 +85,7 @@ export default class UploadBook extends Component {
     youTubeframe.innerHTML = `<iframe id="player" type="text/html" width="250" height="250"
       src="https://www.youtube.com/embed/${songId}"
       frameborder="2"></iframe>`;
-
-
-  }
-
+  };
 
   render() {
     let priceInput = (
@@ -156,7 +141,6 @@ export default class UploadBook extends Component {
       >
         {gradeLevel}
       </Dropdown.Item>
-
     ));
     let paperYears = this.state.paperYears.map((paperYear, index) => (
       <Dropdown.Item
@@ -166,7 +150,6 @@ export default class UploadBook extends Component {
       >
         {paperYear}
       </Dropdown.Item>
-
     ));
     let paperMonths = this.state.paperMonths.map((paperMonth, index) => (
       <Dropdown.Item
@@ -176,7 +159,6 @@ export default class UploadBook extends Component {
       >
         {paperMonth}
       </Dropdown.Item>
-
     ));
     let paperBoards = this.state.paperBoards.map((paperBoard, index) => (
       <Dropdown.Item
@@ -186,7 +168,6 @@ export default class UploadBook extends Component {
       >
         {paperBoard}
       </Dropdown.Item>
-
     ));
     let paperNumbers = this.state.paperNumbers.map((paperNumber, index) => (
       <Dropdown.Item
@@ -196,58 +177,48 @@ export default class UploadBook extends Component {
       >
         {paperNumber}
       </Dropdown.Item>
-
     ));
     return (
-
       <>
-      {(this.props.topic==="Upload PDF"||this.props.topic==="Upload Book")
-      &&
-      <UploadView
-           root={this}
-           subjects={subjects}
-           gradeLevels={gradeLevels}
-           bookType={this.props.bookType}
-           hardCoverInputs={hardCoverInputs}
-           topic={this.props.topic}
-           submitBook={this.props.submitBook}
-           submitHCBook={this.props.submitHCBook}
-         /> 
-      
-      } 
-   
-   {
-     this.props.topic==="Upload YouTube" &&
-   <UploadYouTubeView
-        root={this}
-        subjects={subjects}
-        gradeLevels={gradeLevels}
-        bookType={this.props.bookType}
-        hardCoverInputs={hardCoverInputs}
-        videoPreviewRef={this.videoPreviewRef}
-        handlePreview={this.handlePreview}
-        submitVideo={this.submitVideo}
-        topic={this.props.topic}
-      />
+        {(this.props.topic === "Upload PDF" || this.props.topic === "Upload Book") && (
+          <UploadView
+            root={this}
+            subjects={subjects}
+            gradeLevels={gradeLevels}
+            bookType={this.props.bookType}
+            hardCoverInputs={hardCoverInputs}
+            topic={this.props.topic}
+            submitBook={this.props.submitBook}
+            submitHCBook={this.props.submitHCBook}
+          />
+        )}
 
-   }
-{
-  this.props.topic==="Upload Paper" &&
-<QuestionPaperView
-        root={this}
-        subjects={subjects}
-        gradeLevels={gradeLevels}
-        paperBoards={paperBoards}
-        paperNumbers={paperNumbers}
-        paperYears={paperYears}
-        paperMonths={paperMonths}
-        topic={this.props.topic}
-
-
-
-      />
-
-  }
+        {this.props.topic === "Upload YouTube" && (
+          <UploadYouTubeView
+            root={this}
+            subjects={subjects}
+            gradeLevels={gradeLevels}
+            bookType={this.props.bookType}
+            hardCoverInputs={hardCoverInputs}
+            videoPreviewRef={this.videoPreviewRef}
+            handlePreview={this.handlePreview}
+            submitVideo={this.submitVideo}
+            topic={this.props.topic}
+          />
+        )}
+        {this.props.topic === "Upload Paper" && (
+          <QuestionPaperView
+            root={this}
+            subjects={subjects}
+            gradeLevels={gradeLevels}
+            paperBoards={paperBoards}
+            paperNumbers={paperNumbers}
+            paperYears={paperYears}
+            paperMonths={paperMonths}
+            topic={this.props.topic}
+            submitQuestionPaper={this.props.submitQuestionPaper}
+          />
+        )}
       </>
     );
   }
@@ -257,7 +228,7 @@ function UploadView(props) {
   return (
     <div className="Upload-view-form-container">
       <div className="Upload-view-form">
-  <div className="Upload-view-form-title">{props.topic}</div>
+        <div className="Upload-view-form-title">{props.topic}</div>
         <div className="Upload-view-form-inputs-container">
           <label className="Upload-view-form-inputs-container-label" htmlFor="myfile">
             Select a file:
@@ -315,7 +286,7 @@ function UploadView(props) {
 
           <Dropdown.Menu>{props.gradeLevels}</Dropdown.Menu>
         </Dropdown>
-        {props.topic=== "Upload Book" ? props.hardCoverInputs : null}
+        {props.topic === "Upload Book" ? props.hardCoverInputs : null}
         {props.bookType === "Upload Book" ? (
           <div className="Submit-button-container">
             <div
@@ -408,18 +379,10 @@ function UploadYouTubeView(props) {
         </Dropdown>
 
         <div className="PreviewVideo">
-          <div className="PreviewVideoContainer"  ref={props.videoPreviewRef}>
-
-          </div>
+          <div className="PreviewVideoContainer" ref={props.videoPreviewRef}></div>
         </div>
         <div className="Submit-button-container-video">
-          <button
-    
-            className={"submit-button"}
-            onClick={() =>
-              props.root.handlePreview()
-            }
-          >
+          <button className={"submit-button"} onClick={() => props.root.handlePreview()}>
             Preview
           </button>
 
@@ -428,7 +391,7 @@ function UploadYouTubeView(props) {
             onClick={() =>
               props.root.submitVideo(
                 props.root.state.youtubeUrl,
-                props.root.state.youtubeVideoTitle ,
+                props.root.state.youtubeVideoTitle,
                 props.root.state.youtubeVideoDescription,
                 props.root.state.subject,
                 props.root.state.gradeLevel
@@ -443,8 +406,7 @@ function UploadYouTubeView(props) {
   );
 }
 
-
-function QuestionPaperView(props){
+function QuestionPaperView(props) {
   return (
     <div className="Upload-view-form-container">
       <div className="Upload-view-form">
@@ -467,21 +429,21 @@ function QuestionPaperView(props){
         </div>
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {props.root.state.paperBoard ? props.root.state.paperBoard: "Select Exam Board"}
+            {props.root.state.paperBoard ? props.root.state.paperBoard : "Select Exam Board"}
           </Dropdown.Toggle>
 
           <Dropdown.Menu>{props.paperBoards}</Dropdown.Menu>
         </Dropdown>
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {props.root.state.paperYear ? props.root.state.paperYear: "Select Year"}
+            {props.root.state.paperYear ? props.root.state.paperYear : "Select Year"}
           </Dropdown.Toggle>
 
           <Dropdown.Menu>{props.paperYears}</Dropdown.Menu>
         </Dropdown>
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {props.root.state.paperMonth? props.root.state.paperMonth: "Select Month"}
+            {props.root.state.paperMonth ? props.root.state.paperMonth : "Select Month"}
           </Dropdown.Toggle>
 
           <Dropdown.Menu>{props.paperMonths}</Dropdown.Menu>
@@ -496,7 +458,7 @@ function QuestionPaperView(props){
         </Dropdown>
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {props.root.state.paperNumber ? props.root.state.paperNumber  : "Select Paper Number"}
+            {props.root.state.paperNumber ? props.root.state.paperNumber : "Select Paper Number"}
           </Dropdown.Toggle>
 
           <Dropdown.Menu>{props.paperNumbers}</Dropdown.Menu>
@@ -510,33 +472,24 @@ function QuestionPaperView(props){
         </Dropdown>
 
         <div className="Submit-button-container">
-            <div
-              className={"submit-button"}
-              onClick={() =>
-                props.root.submitPaper(
-                  {
-                   paperBoard: props.root.state.paperBoard,
-                   paperYear:props.root.state.paperYear,
-                   paperMonth:props.root.state.paperMonth,
-                   paperNumber:props.root.state.paperNumber,
-                   subject:props.root.state.subject,
-                   paperPath:props.root.state.paperPath,
-                   gradeLevel: props.root.state.gradeLevel
-                
-                }
-                )
-              }
-            >
-              Submit
-            </div>
+          <div
+            className={"submit-button"}
+            onClick={() =>
+              props.submitQuestionPaper(
+                props.root.state.paperBoard,
+                props.root.state.paperYear,
+                props.root.state.paperMonth,
+                props.root.state.paperNumber,
+                props.root.state.subject,
+                props.root.state.paperPath,
+                props.root.state.gradeLevel
+              )
+            }
+          >
+            Submit
           </div>
+        </div>
       </div>
     </div>
   );
-
-
-
-
-
-
 }

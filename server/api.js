@@ -16,6 +16,8 @@ const HardCoverBook = require("./models/hardCoverBook");
 
 const PDF = require("./models/pdfBook");
 
+const QuestionPaper = require("./models/QuestionPaper");
+
 // import authentication library
 const auth = require("./auth");
 
@@ -79,6 +81,29 @@ router.post("/add_pdf", async (req, res) => {
 });
 
 
+router.post("/add_question_paper", async (req, res) => {
+  //req.body must contain all the following fields
+  let newBook = new QuestionPaper({
+    paperBoard:  req.body.paperBoard,
+    paperYear:  req.body.paperYear,
+    paperMonth: req.body.paperMonth,
+    paperNumber: req.body.paperNumber,
+    subject: req.body.subject,
+    downloadUrl: req.body.downloadUrl,
+    gradeLevel: req.body.gradeLevel,
+    format: req.body.format,
+  });
+
+  newBook
+    .save()
+    .then((book) => {
+      res.send(JSON.stringify({ book: book }));
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send(JSON.stringify({ error: "error" }));
+    });
+});
 
 router.post("/search", async (req, res) => {
   //sample_tags = [pdf_books, mathematics];
