@@ -78,6 +78,54 @@ router.post("/add_pdf", async (req, res) => {
     });
 });
 
+
+
+router.post("/search", async (req, res) => {
+  //sample_tags = [pdf_books, mathematics];
+  //empty tags means search all
+  //req.body.bookType must be one of pdf_books, hc_books, all
+  //req.body.pattern is the search query
+  let tags = req.body.tags;
+  if (tags === []) {
+  }
+  let all_books;
+  console.log("this is book type", req.body.bookType);
+  if (req.body.bookType === "pdf_books") {
+    console.log("in pdf books");
+    all_books = await PDF.find({});
+  } else if (req.body.bookType === "hc_books") {
+    all_books = await HardCoverBook.find({});
+  } else if (req.body.bookType === "all") {
+    let new_books;
+    all_books = await HardCoverBook.find({});
+    new_books = await PDF.find({});
+    all_books = all_books.concat(new_books);
+    console.log("this is new all books", all_books);
+  }
+
+  // let books_json = JSON.stringify(all_books);
+  const fuseOptions = {
+    // isCaseSensitive: false,
+    // includeScore: false,
+    // shouldSort: true,
+    // includeMatches: false,
+    // findAllMatches: false,
+    // minMatchCharLength: 1,
+    // location: 0,
+    // threshold: 0.6,
+    // distance: 100,
+    // useExtendedSearch: false,
+    // ignoreLocation: false,
+    // ignoreFieldNorm: false,
+    keys: req.body.tags,
+  };
+  // console.log("this is all books", all_books);
+  console.log("this is type of all books", typeof all_books);
+  const fuse = new Fuse(all_books, fuseOptions);
+  const results = fuse.search(req.body.pattern);
+  res.send(JSON.stringify(results));
+});
+
 router.post("/add_hc_book", (req, res) => {
   let newBook = new HardCoverBook({
     title: req.body.title,
