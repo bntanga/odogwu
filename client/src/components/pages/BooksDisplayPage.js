@@ -41,6 +41,52 @@ function PdfBookCardView ({ title, author, downloadLink, description, grade }){
 )};
 
 
+function YouTubeView(props){
+  const [flipped, flipCard] = useState(false);
+
+  let flipCardClick = (e) => {
+    e.preventDefault();
+    console.log("prev state", flipped);
+    flipped ? flipCard(false) : flipCard(true);
+    console.log("card flipped", flipped);
+  };
+
+return (
+  <div className="PDF-book-card-container" onClick={flipCardClick}>
+    <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
+        <>
+        <div style={{backgroundImage:`url(${imageUrl})`}} className="PDF-book-card-container-body-card-flip">
+            <iframe id="player" type="text/html" width="250" height="250"
+              src={`https://www.youtube.com/embed/${props.videoUrl}`}
+              frameborder="2"></iframe>
+        </div>
+        <div className={"PDF-book-card-container-footer"}>{props.title}</div>
+        </>
+      <div className="PDF-book-card-container-body-other-side">
+        <div className="PDF-book-card-info-tile-other-side">
+          <div className={"PDF-book-card-info-tile-tag"}>Title:</div>
+          <div className={"PDF-book-card-info-tile-detail"}>{props.title}</div>
+        </div>
+        <div className="PDF-book-card-info-tile-other-side">
+          <div className={"PDF-book-card-info-tile-tag"}>Subject: </div>
+          <div className={"PDF-book-card-info-tile-detail"}>{props.subject}</div>
+        </div>
+        <div className="PDF-book-card-info-tile-other-side">
+          <div className={"PDF-book-card-info-tile-tag"}>Description: </div>
+          <div className={"PDF-book-card-info-tile-detail"}>{props.description}</div>
+        </div>
+        <div className="PDF-book-card-info-tile-other-side">
+          <div className={"PDF-book-card-info-tile-tag"}>Grade Level: </div>
+          <div className={"PDF-book-card-info-tile-detail"}>{props.gradeLevel}</div>
+        </div>
+      </div>
+    </ReactCardFlip>
+  </div>
+);
+
+
+}
+
 
 function PhysicalBookCardView({
   imageUrl,
@@ -127,16 +173,6 @@ export default class BooksDisplayPage extends Component {
       console.log(err)
 
     })
-    // let dataJSON = data.json();
-    // this.props.handleSubjectSearch(data.json());
-    // console.log(dataJSON);
-
-
-
-    // let responseJSON = await books.json();
-    // console.log("this is response", responseJSON);
-    // this.setState({ pdf_books: responseJSON.pdf_books, hc_books: responseJSON.hc_books });
-    // await navigate("/books_display");
   }
   handleText=(ev)=>{
     this.setState({searchText:ev.target.value})
