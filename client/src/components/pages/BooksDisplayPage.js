@@ -206,13 +206,18 @@ function PhysicalBookCardView({
   );
 }
 
-let Tag = ({ title }) => <div className={"tag-title"}>{title}</div>;
+let Tag = ({ title, onClick }) => (
+  <div className={"tag-title"} onClick={onClick}>
+    {title}
+  </div>
+);
 
 export default class BooksDisplayPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchText: " ",
+      activeTag: "",
     };
   }
 
@@ -237,7 +242,25 @@ export default class BooksDisplayPage extends Component {
   };
 
   render() {
-    let tags_filter = this.props.tags.map((title, index) => <Tag title={title} key={index} />);
+    // let tags_filter = this.props.tags.map((title, index) => <Tag title={title} key={index} />);
+    let hc_book_tag = (
+      <Tag
+        title="Books"
+        onClick={() => {
+          this.setState({ activeTag: "hc_book" });
+          console.log("setting active tag with", this.state.activeTag);
+        }}
+      />
+    );
+    let pdf_book_tag = (
+      <Tag title="PDFs" onClick={() => this.setState({ activeTag: "pdf_book" })} />
+    );
+    let question_paper_tag = (
+      <Tag title="Papers" onClick={() => this.setState({ activeTag: "question_paper" })} />
+    );
+    let youtube_video_tag = (
+      <Tag title="Videos" onClick={() => this.setState({ activeTag: "youtube_videos" })} />
+    );
 
     let pdf_books = this.props.pdf_books.map((book, index) => (
       <PdfBookCardView
@@ -287,6 +310,26 @@ export default class BooksDisplayPage extends Component {
       />
     ));
 
+    let renderItems;
+    switch (this.state.activeTag) {
+      case "":
+        renderItems = hc_books.concat(pdf_books, question_papers, youtube_videos);
+        break;
+      case "hc_book":
+        renderItems = hc_books;
+        console.log("in hc _books");
+        break;
+      case "pdf_book":
+        renderItems = pdf_books;
+        break;
+      case "question_paper":
+        renderItems = question_papers;
+        break;
+      case "youtube_videos":
+        renderItems = youtube_videos;
+        break;
+    }
+
     return (
       <div className="Books-display-container">
         <SideBar
@@ -296,12 +339,15 @@ export default class BooksDisplayPage extends Component {
           handleChange={this.handleText}
         />
         <div className="Books-display-container-view">
-          <div className="Books-display-container-view-tags-container">{tags_filter}</div>
+          <div className="Books-display-container-view-tags-container">
+            {pdf_book_tag} {hc_book_tag} {question_paper_tag} {youtube_video_tag}
+          </div>
           <div className="Books-display-container-view-items">
-            {pdf_books}
-            {hc_books}
-            {question_papers}
-            {youtube_videos}
+            {/*{pdf_books}*/}
+            {/*{hc_books}*/}
+            {/*{question_papers}*/}
+            {/*{youtube_videos}*/}
+            {renderItems}
           </div>
         </div>
       </div>
