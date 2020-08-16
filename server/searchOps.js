@@ -1,4 +1,7 @@
 const pdfSchema = require("./models/pdfBook.js");
+const QuestionPaperSchema = require("./models/QuestionPaper.js");
+
+
 const Fuse = require("fuse.js");
 const messenger = require("./whatsapp.js");
 // const { response } = require("express");
@@ -248,6 +251,21 @@ function searchPdfByLevel(text, res, extended, index, number) {
       }
     });
   }
+}
+
+
+searchQuestionsPapers = async() =>{
+
+
+  let questionPapers = await QuestionPaperSchema.find({});
+
+  
+
+
+
+
+
+
 }
 
 module.exports = { searchPdfByTitle, generalSearch, searchPdfByAuthor, searchPdfByLevel };

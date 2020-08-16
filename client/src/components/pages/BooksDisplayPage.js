@@ -40,6 +40,73 @@ function PdfBookCardView ({ title, author, downloadLink, description, grade }){
   </div>
 )};
 
+function QuestionCardView({
+
+  paperBoard,
+  paperYear,
+  paperMonth,
+  paperNumber,
+  subject,
+  downloadUrl,
+  gradeLevel
+
+}){
+
+  const [flipped, flipCard] = useState(false);
+
+  let flipCardClick = (e) => {
+    e.preventDefault();
+    console.log("prev state", flipped);
+    flipped ? flipCard(false) : flipCard(true);
+    console.log("card flipped", flipped);
+  };
+  return (
+    <div className="PDF-book-card-container" onClick={flipCardClick}>
+      <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
+          <>
+          <div className="PDF-book-card-container-body-card-flip">
+          </div>
+          <div className={"PDF-book-card-container-footer"}>{paperBoard}</div>
+          </>
+        <div className="PDF-book-card-container-body-other-side">
+          <div className="PDF-book-card-info-tile-other-side">
+            <div className={"PDF-book-card-info-tile-tag"}>Exam:</div>
+            <div className={"PDF-book-card-info-tile-detail"}>{paperBoard}</div>
+          </div>
+          <div className="PDF-book-card-info-tile-other-side">
+            <div className={"PDF-book-card-info-tile-tag"}>Year: </div>
+            <div className={"PDF-book-card-info-tile-detail"}>{paperYear}</div>
+          </div>
+          <div className="PDF-book-card-info-tile-other-side">
+            <div className={"PDF-book-card-info-tile-tag"}>Month: </div>
+            <div className={"PDF-book-card-info-tile-detail"}>{paperMonth}</div>
+          </div>
+          <div className="PDF-book-card-info-tile-other-side">
+
+            <div className={"PDF-book-card-info-tile-tag"}>Number: </div>
+            <div className={"PDF-book-card-info-tile-detail"}>{paperNumber}</div>
+          </div>
+          <div className="PDF-book-card-info-tile-other-side">
+            <div className={"PDF-book-card-info-tile-tag"}>Subject: </div>
+            <div className={"PDF-book-card-info-tile-detail"}>{subject}</div>
+          </div>
+          <div className="PDF-book-card-info-tile-other-side">
+            <div className={"PDF-book-card-info-tile-tag"}>Grade: </div>
+            <div className={"PDF-book-card-info-tile-detail"}>{gradeLevel}</div>
+          </div>
+        </div>
+      </ReactCardFlip>
+    </div>
+  );
+
+
+
+
+
+
+
+}
+
 
 function YouTubeView(props){
   const [flipped, flipCard] = useState(false);
