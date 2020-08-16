@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import { BrowserRouter as Router, Link } from "react-router-dom";
-import {Link} from "@reach/router";
+import {Link, navigate} from "@reach/router";
 
 import "./NavBar.css";
 
@@ -15,6 +15,10 @@ export default class NavBar extends React.Component {
       dropdownClassName: "DropDownViewContainerAlternate",
     };
   }
+  handleNavigate=(urldata)=>{
+    navigate(`/upload`);
+    this.props.handleNavigate(urldata);
+  }
   handleClick = () => {
     if (this.state.dropdownClassName === "DropDownViewContainer") {
       this.setState({ dropdownClassName: "DropDownViewContainerAlternate" });
@@ -24,7 +28,9 @@ export default class NavBar extends React.Component {
   };
 
   render() {
-    return <NavBarView handleClick={this.handleClick} dropClass={this.state.dropdownClassName} />;
+    return <NavBarView 
+    handleNavigate={this.handleNavigate}
+    handleClick={this.handleClick} dropClass={this.state.dropdownClassName} />;
   }
 }
 
@@ -47,7 +53,7 @@ function NavBarView(props) {
           </Link>
           <div className="NavBar-nav-dropdown" onClick={props.handleClick}>
             <span className="NavBar-nav-span"> Upload Something </span>
-            <DropDownView dropClass={props.dropClass} />
+            <DropDownView handleNavigate = {props.handleNavigate} dropClass={props.dropClass} />
           </div>
         </div>
       </div>
@@ -56,6 +62,8 @@ function NavBarView(props) {
 }
 
 function DropDownView(props) {
+
+
   let uploadsList = [
     {
       topic: "Upload YouTube",
@@ -63,18 +71,22 @@ function DropDownView(props) {
     },
     {
       topic: "Upload PDF",
-      url: "uploadpdf",
+      url: "upload",
     },
     {
-      topic: "Book",
+      topic: "Upload Book",
       url: "uploadbook",
-    },
+    },{
+      topic: "Upload Paper",
+      url: "uploadpaper",
+    }
   ];
   let uploadsListView = uploadsList.map((upload, key) => (
-    <Link className="DropdownLink" key={key} to={`/${upload.url}`}>
-      {" "}
-      {upload.topic}{" "}
-    </Link>
+    <div className="DropdownLink" key={key}   
+    onClick = { () => props.handleNavigate(upload)} 
+    >
+      {upload.topic}
+    </div>
   ));
 
   return <div className={props.dropClass}>{uploadsListView}</div>;

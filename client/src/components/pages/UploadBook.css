@@ -1,0 +1,112 @@
+.Upload-view-form-container{
+
+    margin-top:3rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+
+
+}
+.Upload-view-form{
+
+
+    border-radius:  15px;
+    padding:2rem;
+    background-color:var(--primary--subtile);
+}
+
+
+.Upload-view-form-title{
+    color:white;
+    text-align:center;
+    font-size:3rem;
+    margin-bottom:1rem;
+
+}
+
+.Upload-view-form-inputs-container{
+
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+
+    
+
+}
+
+.Upload-view-form-inputs-container-label{
+
+color:white;
+font-size:1.5rem;
+margin-right:2rem;
+
+}
+
+.Upload-view-form-inputs-container-input{
+
+    color:white;
+    font-size:1rem;
+
+}
+
+.submit-button{
+
+    color:white;
+    text-align:center;
+    height:3rem;
+    width: 200px;
+    background-color:var(--accentpink);
+    font-size:1rem;
+    padding-top:0.8rem;
+    font-weight:bold;
+    border-radius:12px;
+
+
+}
+
+.Submit-button-container{
+
+
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    margin-top:1rem;
+
+
+}
+
+.Submit-button-container-video{
+
+
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+
+
+}
+
+
+.PreviewVideo{
+    width:100%;
+    height:300px;
+    display:flex;
+    flex-direction:column ;
+    align-items:center;
+    justify-content:center;
+
+
+
+
+}
+
+.PreviewVideoContainer{
+
+    width:300px;
+    height:300px;
+    margin-top:2rem;
+    margin-left:4.5rem;
+
+}

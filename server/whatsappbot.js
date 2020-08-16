@@ -1,5 +1,5 @@
 const accountSid = "ACcb33960fe7e14a1ced8e3293dc903429";
-const authToken = "55128b020e6371e8dc95d73c8f9b084b";
+const authToken = "a75f2fc0605622a6e9925dbbf54b60f7";
 const client = require("twilio")(accountSid, authToken);
 const pdfSchema = require("./models/pdfBook.js");
 const Fuse = require("fuse.js");
@@ -128,6 +128,7 @@ async function choosePDFOption(subject, title, res, index, phoneNumber) {
         message += `Subject : ${item_to_send.subject} \n`;
         message += `Grade Level : ${item_to_send.gradeLevel} \n\n`;
         var downloadUrl = item_to_send.downloadUrl;
+        console.log(downloadUrl)
         var action = {
           actions: [
             {

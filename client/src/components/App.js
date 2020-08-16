@@ -69,12 +69,19 @@ class App extends Component {
       userId: undefined,
       pdf_books: [],
       hc_books: [],
+      uploadTopic : "Upload PDF",
+
     };
   }
 
   //Endpoints being expected to be provided
   // /filter should return an array of book objects
   // /add_book should add book
+
+  handleNavigate = (urldata)=>{
+    this.setState({uploadTopic:urldata.topic});
+  }
+
 
   getDownloadurl = async (fileName, bucket) => {
     console.log("get download URL called");
@@ -259,15 +266,16 @@ class App extends Component {
     return (
      
         <>
-        <NavBar></NavBar>
+        <NavBar handleNavigate={this.handleNavigate} topic={this.state.uploadTopic}></NavBar>
         {/* <div className="rootAppRenderContainer"> */}
          <Router>
                 <UploadBook
-                 path="/about"
+                 path="/upload"
                   submitBook={this.submitBook}
                   submitHCBook={this.submitHardCoverBook}
                   subjects={sampleSubjects}
                   bookType="hardCover"
+                  topic={this.state.uploadTopic}
                   gradeLevels={gradeLevels}
                 />
                 <SubjectFilterPage 
