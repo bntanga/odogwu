@@ -55,8 +55,17 @@ router.post("/filter", async (req, res) => {
   console.log("filter called with body", req.body);
   let pdf_books = await PDF.find(req.body);
   let hc_books = await HardCoverBook.find(req.body);
+  let youtube_videos = await YouTubeVideo.find(req.body);
+  let question_papers = await QuestionPaper.find(req.body);
   console.log("this is all books", pdf_books, hc_books);
-  res.send(JSON.stringify({ pdf_books: pdf_books, hc_books: hc_books }));
+  res.send(
+    JSON.stringify({
+      pdf_books: pdf_books,
+      hc_books: hc_books,
+      youtube_videos: youtube_videos,
+      question_papers: question_papers,
+    })
+  );
 });
 router.post("/add_pdf", async (req, res) => {
   //req.body must contain all the following fields
@@ -96,65 +105,61 @@ router.post("/add_question_paper", async (req, res) => {
     format: req.body.format,
   });
 
-router.post("/subjectSearch", async (req,res)=>{
-
-    console.log(req.body)
+  router.post("/subjectSearch", async (req, res) => {
+    console.log(req.body);
     let combined_list = [];
     let pdfs = [];
     let hardbook = [];
-    await PDF.find({subject:req.body.subject}).then((docs)=>{
-      
-      docs.map((doc)=>{
-        pdfs.push(doc);
+    await PDF.find({ subject: req.body.subject })
+      .then((docs) => {
+        docs.map((doc) => {
+          pdfs.push(doc);
+        });
       })
-    
-    }).catch((err)=>{
-      console.log(err);
-      // return []
-    });
-    await HardCoverBook.find({subject:req.body.subject}).then((docs)=>{     
-       docs.map((doc)=>{
-        hardbook.push(doc);
-    })}).catch((err)=>{
-      console.log(err);
-    
-    });;
+      .catch((err) => {
+        console.log(err);
+        // return []
+      });
+    await HardCoverBook.find({ subject: req.body.subject })
+      .then((docs) => {
+        docs.map((doc) => {
+          hardbook.push(doc);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     const pdffuseOptions = {
-       includeScore: true,
-       keys :['title','author','description']
+      includeScore: true,
+      keys: ["title", "author", "description"],
     };
-    const fusepdfs = new Fuse(pdfs, pdffuseOptions);  
+    const fusepdfs = new Fuse(pdfs, pdffuseOptions);
 
-    const resultpdf = fusepdfs.search(req.body.text).map((doc)=>{
+    const resultpdf = fusepdfs.search(req.body.text).map((doc) => {
       return doc.item;
-   });;
-  
+    });
+
     const hcfuseOptions = {
       includeScore: true,
-      keys :['title','author','description']
-   };
-   const fusehc = new Fuse(hardbook, hcfuseOptions);  
+      keys: ["title", "author", "description"],
+    };
+    const fusehc = new Fuse(hardbook, hcfuseOptions);
 
-   const resulthc = fusehc.search(req.body.text).map((doc)=>{
-
+    const resulthc = fusehc.search(req.body.text).map((doc) => {
       return doc.item;
-   });
+    });
 
-  //  console.log(JSON.stringify({pdf_books : resultpdf,hard_covers : resulthc}));
+    //  console.log(JSON.stringify({pdf_books : resultpdf,hard_covers : resulthc}));
 
-
-  //  var data = {
-  //   pdf_books : resultpdf,
-  //   hard_covers : resulthc
-  //  }
+    //  var data = {
+    //   pdf_books : resultpdf,
+    //   hard_covers : resulthc
+    //  }
     // var result = resulthc.concat(resultpdf);
 
-
-    res.send(JSON.stringify({pdf_books : resultpdf,hard_covers : resulthc}));
-    
-
-});
+    res.send(JSON.stringify({ pdf_books: resultpdf, hard_covers: resulthc }));
+  });
 
   newBook
     .save()
@@ -217,7 +222,6 @@ router.post("/search", async (req, res) => {
   const results = fuse.search(req.body.pattern);
   res.send(JSON.stringify(results));
 });
-
 
 router.post("/add_hc_book", (req, res) => {
   let newBook = new HardCoverBook({

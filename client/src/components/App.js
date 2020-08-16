@@ -27,6 +27,8 @@ let sampleSubjects = [
   { image: "", title: "Chemistry" },
   { image: "", title: "Biology" },
   { image: "", title: "Geography" },
+  { image: "", title: "Mathematics" },
+  { image: "", title: "English" },
 ];
 let gradeLevels = ["Advanced Level", "Senior Secondary", "Junior Secondary", "Primary"];
 let sampleFilterGroups = [
@@ -69,6 +71,7 @@ class App extends Component {
       userId: undefined,
       pdf_books: [],
       hc_books: [],
+      question_papers: [],
       uploadTopic: "Upload PDF",
       subject: "",
     };
@@ -317,7 +320,12 @@ class App extends Component {
     let responseJSON = await books.json();
     console.log("this is response", responseJSON);
     this.setState({ subject: subject });
-    this.setState({ pdf_books: responseJSON.pdf_books, hc_books: responseJSON.hc_books });
+    this.setState({
+      pdf_books: responseJSON.pdf_books,
+      hc_books: responseJSON.hc_books,
+      question_papers: responseJSON.question_papers,
+      youtube_videos: responseJSON.youtube_videos,
+    });
     await navigate("/books_display");
   };
 
@@ -372,6 +380,8 @@ class App extends Component {
             filterGroups={sampleFilterGroups}
             pdf_books={this.state.pdf_books}
             hc_books={this.state.hc_books}
+            question_papers={this.state.question_papers}
+            youtube_videos={this.state.youtube_videos}
             filterFunction={this.anyFilter}
             subject={this.state.subject}
             handleSubjectSearch={this.handleSubjectSearch}
