@@ -88,12 +88,94 @@ subjects.map((subject, index) => {
   `;
 });
 
-app.post("/bot", appBot.WhatsappBot.googleSearch);
-app.post("/botchoosepdftitle", appBot.WhatsappBot.optionChoose);
+app.post("/bot", appBot.WhatsappBot.Search);
+app.post("/botchoosepdftitle", appBot.WhatsappBot.chooseAPDF);
+app.post("/botsearchpaper",appBot.WhatsappBot.questionPaperSearch)
+app.post("/botchoosepaper",appBot.WhatsappBot.choosePaper)
+app.post("/chooseussdPDF",(req,res)=>{
 
+  let { sessionId, serviceCode, phoneNumber, text } = req.body;
+
+  if (text===''){
+   let response = `CON WELCOME TO ODOGWU LIBRARY
+    CHOOSE PDF : format => 
+    choose pdf = <id:******>
+
+   `;
+   res.send(response);
+  }
+  else{
+ 
+ //  console.log(text)
+  var regex = /\<(.*?)\>/g
+  var search_strings = []
+  text.match(regex).map(function(val){
+    let newval =  val.replace(/\>/g,'');
+    let news= newval.replace(/\</g,'') + " ";
+    let string_split = news.split(":")
+    let string_1 = string_split[0]
+    let string_2 = string_split[1]
+    string_1 =string_1.split(" ")[0]
+    string_2 = string_2.split(" ")[0]
+    var string_data = {
+      tag : string_1,
+      text  : string_2
+    }
+
+    search_strings.push(string_data);
+
+
+ });
+ 
+ console.log(search_strings);
+ searchOps.choosePDF(search_strings,phoneNumber,res)
+
+}
+
+})
+app.post("/ussdPDF",(req,res)=>{
+
+   let { sessionId, serviceCode, phoneNumber, text } = req.body;
+  //  console.log(text)
+   if (text===''){
+    let response = `CON WELCOME TO ODOGWU LIBRARY
+     SEARCH PDF : format => 
+     search pdf = <title:******> <subject:******>
+
+
+    `;
+    res.send(response);
+   }
+   else{
+  
+  //  console.log(text)
+   var regex = /\<(.*?)\>/g
+   var search_strings = []
+   text.match(regex).map(function(val){
+     let newval =  val.replace(/\>/g,'');
+     let news= newval.replace(/\</g,'') + " ";
+     let string_split = news.split(":")
+     let string_1 = string_split[0]
+     let string_2 = string_split[1]
+     string_1 =string_1.split(" ")[0]
+     string_2 = string_2.split(" ")[0]
+     var string_data = {
+       tag : string_1,
+       text  : string_2
+     }
+
+     search_strings.push(string_data);
+ 
+
+  });
+  
+  console.log(search_strings);
+  searchOps.searchPDF(search_strings,phoneNumber,res)
+
+}
+
+})
 app.post("/ussd", (req, res) => {
-  // console.log("ussed");
-  // console.log(req.body);
   let { sessionId, serviceCode, phoneNumber, text } = req.body;
   // text = ""
   // console.log(req.body)

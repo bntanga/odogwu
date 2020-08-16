@@ -1,6 +1,8 @@
 const pdfSchema = require("./models/pdfBook.js");
 const QuestionPaperSchema = require("./models/QuestionPaper.js");
-
+const accountSid = "ACcb33960fe7e14a1ced8e3293dc903429";
+const authToken = "3f719506ec25438b61afbcfc8156422c";
+const client = require("twilio")(accountSid, authToken);
 
 const Fuse = require("fuse.js");
 const messenger = require("./whatsapp.js");
@@ -254,18 +256,109 @@ function searchPdfByLevel(text, res, extended, index, number) {
 }
 
 
-searchQuestionsPapers = async() =>{
+
+searchPDF = async(messages,number,res)=>{
+
+  let questionPapers = await pdfSchema.find({});
+  const options = {
+    includeScore: true,
+    keys: [],
+  };
+  const fuse = new Fuse(questionPapers, options);
+
+  console.log(questionPapers)
+  messages.map((message)=>{
+    const options = {
+      includeScore: true,
+      keys: [message.tag],
+    };
+    const fuse = new Fuse(questionPapers, options);
+    let q = fuse.search(message.text)
+    console.log("This is q",q);
+    if (q.length!==0){
+    questionPapers = q;
+    }
+  })
+  console.log(questionPapers)
+
+ questionPapers = questionPapers.map((doc)=>{
+  return doc.item
+ });
+ console.log(questionPapers)
+
+ var message = "CON Here are your search results \n\n"
+ questionPapers.map((doc,index)=>{
+   console.log(index)
+    message += `${index+1}\n`
+    message += `ID : ${doc._id} `
+    message += `Title : ${doc.title} \n`
+    message += `Author : ${doc.author} \n`
+    message += `Subject : ${doc.subject} \n`
+    message += `Format : ${doc.format} \n`
+    message += `Edition : ${doc.edition} \n`
+    message += `Grade Level : ${doc.gradeLevel} \n\n`
+    
+ })
+
+res.send(message);
+
+// sendPlainWhatsAppMessage(number,"Use the following codes to get your \n desired result");
+var close = "Use the following codes to get your \n desired result\n\n"
+questionPapers.map((doc,index)=>{
+
+  close += `${index}\n`
+  close += `choose pdf = <id:${doc._id}> \n\n`
+
+})
 
 
-  let questionPapers = await QuestionPaperSchema.find({});
-
-  
-
-
+sendPlainMessage(number, close);
 
 
 
 
 }
 
-module.exports = { searchPdfByTitle, generalSearch, searchPdfByAuthor, searchPdfByLevel };
+function sendPlainMessage(number,close){
+
+  client.messages
+  .create({
+     body: close,
+     from: '+14155238886',
+     to: number
+   })
+  .then(message => console.log(message.sid));
+
+
+}
+function sendWhatsAppMessage(number, message,mediaUrl) {
+  console.log(number);
+  console.log(message);
+  client.messages
+    .create({
+      mediaUrl:[mediaUrl],
+      from: "whatsapp:+14155238886",
+      body: message,
+      to: "whatapp:"+number,
+    })
+    .then((message) => console.log(message));
+}
+choosePDF = async(messages,number,res) =>{
+
+  let doc = await pdfSchema.findOne({ _id : messages[0].text});
+  var message = "CON Here you go \n\n"
+    message += `ID : ${doc._id} `
+    message += `Title : ${doc.title} \n`
+    message += `Author : ${doc.author} \n`
+    message += `Subject : ${doc.subject} \n`
+    message += `Format : ${doc.format} \n`
+    message += `Edition : ${doc.edition} \n`
+    message += `Grade Level : ${doc.gradeLevel} \n\n`
+  
+res.send(message);
+
+sendWhatsAppMessage(number,"",doc.downloadUrl);
+
+}
+
+module.exports = { searchPdfByTitle, generalSearch, searchPdfByAuthor, searchPdfByLevel, searchPDF,choosePDF };
