@@ -58,6 +58,33 @@ export default class UploadBook extends Component {
   //props  => submit function that submits all data to API
   // List of subjects
 
+  returnToInitial = () => {
+    this.setState({
+      bookName: "",
+      bookAuthor: "",
+      description: "",
+      subject: "",
+
+      //Attributes for hard cover books only
+      price: "",
+      sellerLocation: "",
+      sellerPhoneNumber: "",
+      gradeLevel: "",
+      //attributes for question papers
+      paperYear: "",
+      paperMonth: "",
+      paperNumber: "",
+      paperBoard: "",
+      paperPath: "",
+
+      //attributes for videos
+
+      youtubeUrl: "",
+      youtubeVideoTitle: " ",
+      youtubeVideoDescription: " ",
+    });
+  };
+
   bookNameFunc = (event) => this.setState({ bookName: event.target.value });
   bookAuthorFunc = (event) => this.setState({ bookAuthor: event.target.value });
   descriptionFunc = (event) => this.setState({ description: event.target.value });
@@ -186,6 +213,7 @@ export default class UploadBook extends Component {
             topic={this.props.topic}
             submitBook={this.props.submitBook}
             submitHCBook={this.props.submitHCBook}
+            returnToInitial={this.returnToInitial}
           />
         )}
 
@@ -200,6 +228,7 @@ export default class UploadBook extends Component {
             handlePreview={this.handlePreview}
             submitVideo={this.props.submitVideo}
             topic={this.props.topic}
+            returnToInitial={this.returnToInitial}
           />
         )}
         {this.props.topic === "Upload Paper" && (
@@ -213,6 +242,7 @@ export default class UploadBook extends Component {
             paperMonths={paperMonths}
             topic={this.props.topic}
             submitQuestionPaper={this.props.submitQuestionPaper}
+            returnToInitial={this.returnToInitial}
           />
         )}
       </>
@@ -287,7 +317,7 @@ function UploadView(props) {
           <div className="Submit-button-container">
             <div
               className={"submit-button"}
-              onClick={() =>
+              onClick={() => {
                 props.submitHCBook(
                   props.root.state.bookName,
                   props.root.state.bookAuthor,
@@ -298,8 +328,9 @@ function UploadView(props) {
                   props.root.state.price,
                   props.root.state.sellerLocation,
                   props.root.state.sellerPhoneNumber
-                )
-              }
+                );
+                props.returnToInitial();
+              }}
             >
               Submit
             </div>
@@ -308,7 +339,7 @@ function UploadView(props) {
           <div className="Submit-button-container">
             <div
               className={"submit-button"}
-              onClick={() =>
+              onClick={() => {
                 props.submitBook(
                   props.root.state.bookName,
                   props.root.state.bookAuthor,
@@ -316,8 +347,9 @@ function UploadView(props) {
                   props.root.state.subject,
                   props.root.state.bookPath,
                   props.root.state.gradeLevel
-                )
-              }
+                );
+                props.returnToInitial();
+              }}
             >
               Submit
             </div>
@@ -384,15 +416,16 @@ function UploadYouTubeView(props) {
 
           <button
             className={"submit-button"}
-            onClick={() =>
+            onClick={() => {
               props.submitVideo(
                 props.root.state.youtubeUrl,
                 props.root.state.youtubeVideoTitle,
                 props.root.state.youtubeVideoDescription,
                 props.root.state.subject,
                 props.root.state.gradeLevel
-              )
-            }
+              );
+              props.returnToInitial();
+            }}
           >
             Submit
           </button>
@@ -470,7 +503,7 @@ function QuestionPaperView(props) {
         <div className="Submit-button-container">
           <div
             className={"submit-button"}
-            onClick={() =>
+            onClick={() => {
               props.submitQuestionPaper(
                 props.root.state.paperBoard,
                 props.root.state.paperYear,
@@ -479,8 +512,9 @@ function QuestionPaperView(props) {
                 props.root.state.subject,
                 props.root.state.paperPath,
                 props.root.state.gradeLevel
-              )
-            }
+              );
+              props.returnToInitial();
+            }}
           >
             Submit
           </div>
