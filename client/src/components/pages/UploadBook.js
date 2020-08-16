@@ -72,10 +72,6 @@ export default class UploadBook extends Component {
     this.setState({ youtubeVideoDescription: event.target.value });
   setVideoTitleFunc = (event) => this.setState({ youtubeVideoTitle: event.target.value });
 
-  submitVideo = (info) => {
-    console.log(info);
-  };
-
   handlePreview = () => {
     var url = this.state.youtubeUrl;
     var url_substrings = url.split("/");
@@ -202,7 +198,7 @@ export default class UploadBook extends Component {
             hardCoverInputs={hardCoverInputs}
             videoPreviewRef={this.videoPreviewRef}
             handlePreview={this.handlePreview}
-            submitVideo={this.submitVideo}
+            submitVideo={this.props.submitVideo}
             topic={this.props.topic}
           />
         )}
@@ -389,7 +385,7 @@ function UploadYouTubeView(props) {
           <button
             className={"submit-button"}
             onClick={() =>
-              props.root.submitVideo(
+              props.submitVideo(
                 props.root.state.youtubeUrl,
                 props.root.state.youtubeVideoTitle,
                 props.root.state.youtubeVideoDescription,

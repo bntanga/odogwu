@@ -137,6 +137,26 @@ class App extends Component {
     });
   };
 
+  submitVideo = async (videoUrl, title, description, subject, gradeLevel) => {
+    let body = JSON.stringify({
+      videoUrl: videoUrl,
+      title: title,
+      description: description,
+      subject: subject,
+      gradeLevel: gradeLevel,
+    });
+
+    console.log("this is body", body);
+
+    let upload = await fetch("/api/add_youtube_video", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: body,
+    });
+    let responseJSON = await upload.json();
+    console.log("this is response", responseJSON);
+  };
+
   submitQuestionPaper = async (
     paperBoard,
     paperYear,
@@ -327,6 +347,7 @@ class App extends Component {
             submitBook={this.submitBook}
             submitHCBook={this.submitHardCoverBook}
             submitQuestionPaper={this.submitQuestionPaper}
+            submitVideo={this.submitVideo}
             subjects={sampleSubjects}
             bookType="hardCover"
             topic={this.state.uploadTopic}

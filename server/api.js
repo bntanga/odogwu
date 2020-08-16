@@ -18,6 +18,8 @@ const PDF = require("./models/pdfBook");
 
 const QuestionPaper = require("./models/QuestionPaper");
 
+const YouTubeVideo = require("./models/YouTubeVideo");
+
 // import authentication library
 const auth = require("./auth");
 
@@ -80,12 +82,11 @@ router.post("/add_pdf", async (req, res) => {
     });
 });
 
-
 router.post("/add_question_paper", async (req, res) => {
   //req.body must contain all the following fields
   let newBook = new QuestionPaper({
-    paperBoard:  req.body.paperBoard,
-    paperYear:  req.body.paperYear,
+    paperBoard: req.body.paperBoard,
+    paperYear: req.body.paperYear,
     paperMonth: req.body.paperMonth,
     paperNumber: req.body.paperNumber,
     subject: req.body.subject,
@@ -98,6 +99,27 @@ router.post("/add_question_paper", async (req, res) => {
     .save()
     .then((book) => {
       res.send(JSON.stringify({ book: book }));
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send(JSON.stringify({ error: "error" }));
+    });
+});
+
+router.post("/add_youtube_video", async (req, res) => {
+  //req.body must contain all the following fields
+  let newVideo = new YouTubeVideo({
+    videoUrl: req.body.videoUrl,
+    title: req.body.title,
+    description: req.body.description,
+    subject: req.body.subject,
+    gradeLevel: req.body.gradeLevel,
+  });
+
+  newVideo
+    .save()
+    .then((video) => {
+      res.send(JSON.stringify({ video: video }));
     })
     .catch((error) => {
       console.error(error);
