@@ -69,8 +69,8 @@ class App extends Component {
       userId: undefined,
       pdf_books: [],
       hc_books: [],
-      uploadTopic : "Upload PDF",
-      subject: ""
+      uploadTopic: "Upload PDF",
+      subject: "",
     };
   }
 
@@ -78,15 +78,15 @@ class App extends Component {
   // /filter should return an array of book objects
   // /add_book should add book
 
-  handleNavigate = (urldata)=>{
-    this.setState({uploadTopic:urldata.topic});
-  }
+  handleNavigate = (urldata) => {
+    this.setState({ uploadTopic: urldata.topic });
+  };
 
-  handleSubjectSearch = (data) =>{
+  handleSubjectSearch = (data) => {
     // console.log(data);
-    this.setState({ pdf_books: data.pdf_books});
-    this.setState({hc_books : data.hard_covers});
-  }
+    this.setState({ pdf_books: data.pdf_books });
+    this.setState({ hc_books: data.hard_covers });
+  };
 
   getDownloadurl = async (fileName, bucket) => {
     console.log("get download URL called");
@@ -316,7 +316,7 @@ class App extends Component {
     });
     let responseJSON = await books.json();
     console.log("this is response", responseJSON);
-    this.setState({subject:subject});
+    this.setState({ subject: subject });
     this.setState({ pdf_books: responseJSON.pdf_books, hc_books: responseJSON.hc_books });
     await navigate("/books_display");
   };
@@ -349,34 +349,37 @@ class App extends Component {
       <>
         <NavBar handleNavigate={this.handleNavigate} topic={this.state.uploadTopic}></NavBar>
         {/* <div className="rootAppRenderContainer"> */}
-         <Router>
-                <UploadBook
-                 path="/upload"
-                  submitBook={this.submitBook}
-                  submitHCBook={this.submitHardCoverBook}
-                  subjects={sampleSubjects}
-                  bookType="hardCover"
-                  topic={this.state.uploadTopic}
-                  gradeLevels={gradeLevels}
-                />
-                <SubjectFilterPage 
-                path="/"
-                categories={sampleSubjects} subjectFilter={this.subjectFilter} />
-                <BooksDisplayPage
-                  path="/books_display"
-                  tags={["Books", "Papers", "Curriculum", "Youtube"]}
-                  filterGroups={sampleFilterGroups}
-                  pdf_books={this.state.pdf_books}
-                  hc_books={this.state.hc_books}
-                  filterFunction={this.anyFilter}
-                  subject = {this.state.subject}
-                  handleSubjectSearch = {this.handleSubjectSearch}
-                />
-              <NotFound default />
-          </Router>
-          {/* </div> */}
-        </>
-      
+        <Router>
+          <UploadBook
+            path="/upload"
+            submitBook={this.submitBook}
+            submitHCBook={this.submitHardCoverBook}
+            submitVideo={this.submitVideo}
+            submitQuestionPaper={this.submitQuestionPaper}
+            subjects={sampleSubjects}
+            bookType="hardCover"
+            topic={this.state.uploadTopic}
+            gradeLevels={gradeLevels}
+          />
+          <SubjectFilterPage
+            path="/"
+            categories={sampleSubjects}
+            subjectFilter={this.subjectFilter}
+          />
+          <BooksDisplayPage
+            path="/books_display"
+            tags={["Books", "Papers", "Curriculum", "Youtube"]}
+            filterGroups={sampleFilterGroups}
+            pdf_books={this.state.pdf_books}
+            hc_books={this.state.hc_books}
+            filterFunction={this.anyFilter}
+            subject={this.state.subject}
+            handleSubjectSearch={this.handleSubjectSearch}
+          />
+          <NotFound default />
+        </Router>
+        {/* </div> */}
+      </>
     );
   }
 }
