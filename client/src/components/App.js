@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {navigate,Router } from "@reach/router";
+import { navigate, Router } from "@reach/router";
 // import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound from "./pages/NotFound.js";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -70,8 +70,7 @@ class App extends Component {
       pdf_books: [],
       hc_books: [],
       uploadTopic : "Upload PDF",
-      subject: "",
-
+      subject: ""
     };
   }
 
@@ -124,6 +123,82 @@ class App extends Component {
         console.log("this is body", body);
 
         let upload = await fetch("/api/add_pdf", {
+          method: "post",
+          headers: { "Content-type": "application/json" },
+          body: body,
+        });
+        let responseJSON = await upload.json();
+        console.log("this is response", responseJSON);
+      }
+
+      switch (snapshot.state) {
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+          console.log("Upload is paused");
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          console.log("Upload is running");
+          break;
+        // case firebase.storage.TaskState.SUCCESS:
+        //   console.log("Upload success");
+      }
+    });
+  };
+
+  submitVideo = async (videoUrl, title, description, subject, gradeLevel) => {
+    let body = JSON.stringify({
+      videoUrl: videoUrl,
+      title: title,
+      description: description,
+      subject: subject,
+      gradeLevel: gradeLevel,
+    });
+
+    console.log("this is body", body);
+
+    let upload = await fetch("/api/add_youtube_video", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: body,
+    });
+    let responseJSON = await upload.json();
+    console.log("this is response", responseJSON);
+  };
+
+  submitQuestionPaper = async (
+    paperBoard,
+    paperYear,
+    paperMonth,
+    paperNumber,
+    subject,
+    file,
+    gradeLevel
+  ) => {
+    console.log("submit Question paper called");
+
+    let bucket = "questionPapers";
+    let storageRef = firebase.storage().ref(`${bucket}/${file.name}`);
+    let uploadTask = storageRef.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, async (snapshot) => {
+      let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is " + progress + "% done");
+      if (progress === 100) {
+        let downloadUrl = await this.getDownloadurl(file.name, bucket);
+        let splitArr = file.type.split("/");
+
+        let body = JSON.stringify({
+          paperBoard: paperBoard,
+          paperYear: paperYear,
+          paperMonth: paperMonth,
+          paperNumber: paperNumber,
+          subject: subject,
+          downloadUrl: downloadUrl,
+          format: splitArr[splitArr.length - 1],
+          gradeLevel: gradeLevel,
+        });
+
+        console.log("this is body", body);
+
+        let upload = await fetch("/api/add_question_paper", {
           method: "post",
           headers: { "Content-type": "application/json" },
           body: body,
@@ -271,8 +346,7 @@ class App extends Component {
 
   render() {
     return (
-     
-        <>
+      <>
         <NavBar handleNavigate={this.handleNavigate} topic={this.state.uploadTopic}></NavBar>
         {/* <div className="rootAppRenderContainer"> */}
          <Router>
